@@ -1,0 +1,8 @@
+﻿Patterns for using Entity Framework in C# 8
+ref: https://headspring.com/2019/12/19/c-sharp-8-entity-framework-patterns/https://headspring.com/2019/12/19/c-sharp-8-entity-framework-patterns/
+
+Working with Nullable Reference Types
+ref: https://docs.microsoft.com/en-us/ef/core/miscellaneous/nullable-reference-types#non-nullable-properties-and-initialization
+
+Uses the table-per-hierarchy (TPH) pattern
+ref: https://docs.microsoft.com/en-us/ef/core/modeling/inheritance

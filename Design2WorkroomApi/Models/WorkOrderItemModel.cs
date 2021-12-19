@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Design2WorkroomApi.Models
+{
+    [Table("WorkOrderItems")]
+    public class WorkOrderItemModel : Entity
+    {
+        public WorkOrderItemModel(string item, string? description = null)
+        {
+            Item = item;
+            Description = description;
+        }
+
+        public string Item { get; set; } 
+
+        public string? Description { get; set; } 
+
+        [ForeignKey(nameof(WorkOrderModel))]
+        public Guid WorkOrderId { get; set; }
+
+        public WorkOrderModel WorkOrder { get; set; } = null!;
+    }
+}

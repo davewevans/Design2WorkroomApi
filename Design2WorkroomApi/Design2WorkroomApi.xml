@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<doc>
+	<assembly>
+		<name>Design2WorkroomApi</name>
+	</assembly>
+	<members>
+		<member name="T:Design2WorkroomApi.Models.AppUserAppUser">
+			<summary>
+				Bridge table used for many-to-many self-referencing relationship with AppUsers.
+				Used for many-to-many relationship between Designers-Clients and Designers-Workrooms.
+				Designer, Client, and Workroom models use the table-per-hierarchy pattern hence
+				the need for a self-referencing relationship.
+				ref: https://docs.microsoft.com/en-us/ef/core/modeling/inheritance
+			</summary>
+		</member>
+	</members>
+</doc>
