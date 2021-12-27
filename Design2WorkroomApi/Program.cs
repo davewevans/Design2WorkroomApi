@@ -20,8 +20,8 @@ var builder = WebApplication.CreateBuilder(args);
 // ref: https://github.com/datalust/dotnet6-serilog-example
 // ref: https://www.youtube.com/watch?v=ad0IhMFsxyw
 builder.Host.UseSerilog((ctx, lc) => lc
-    .WriteTo.Console()
-    .WriteTo.Seq("http://localhost:5341"));
+    .WriteTo.Console());
+    //.WriteTo.Seq("http://localhost:5341"));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
       .AddMicrosoftIdentityWebApi(options =>
