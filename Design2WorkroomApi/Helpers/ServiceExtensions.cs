@@ -1,4 +1,6 @@
 ﻿using Design2WorkroomApi.Data;
+using Design2WorkroomApi.Repository.Contracts;
+using Design2WorkroomApi.Repository;
 using Design2WorkroomApi.Services;
 using Design2WorkroomApi.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +35,14 @@ namespace Design2WorkroomApi.Helpers
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddScoped<IAppRolesProvider, AppRolesProvider>();
+            services.AddScoped<IUploadService, UploadService>();
+        }
+
+        public static void ConfigureRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IDesignerRepository, DesignerRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IWorkroomRepository, WorkroomRepository>();
         }
     }
 }

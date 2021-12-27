@@ -44,11 +44,10 @@ builder.Services.ConfigureHelpers();
 
 builder.Services.ConfigureServices();
 
-builder.Services.AddScoped<IDesignerRepository, DesignerRepository>();
-builder.Services.AddScoped<IClientRepository, ClientRepository>();
-builder.Services.AddScoped<IWorkroomRepository, WorkroomRepository>();
+builder.Services.ConfigureRepositories();
 
 builder.Services.AddMemoryCache();
+
 builder.Services.Configure<IpRateLimitOptions>((options) =>
 {
     options.GeneralRules = new List<RateLimitRule>()
