@@ -43,6 +43,7 @@ namespace Design2WorkroomApi.Helpers
             services.AddScoped<IDesignerRepository, DesignerRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IWorkroomRepository, WorkroomRepository>();
+            services.AddScoped<IDesignConceptRepository, DesignConceptRepository>();
         }
     }
 }

@@ -29,6 +29,9 @@ namespace Design2WorkroomApi.Helpers
             CreateMap<ProfileModel, ProfileDto>().ReverseMap();
             CreateMap<ProfileModel, ProfileCreateDto>().ReverseMap();
             CreateMap<ProfileModel, ProfileUpdateDto>().ReverseMap();
+
+            CreateMap<DesignConceptModel, DesignConceptDto>().ReverseMap();
+            CreateMap<DesignConceptModel, DesignConceptCreateDto>().ReverseMap();
         }
     }
 }
