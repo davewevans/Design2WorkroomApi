@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 
-namespace Design2WorkroomApi.Models
+namespace Design2WorkroomApi.DTOs
 {
-    [Table("DesignConcepts")]
-    public class DesignConceptModel: Entity
+    public class DesignConceptUpdate
     {
         public string ImageUrl { get; set; }
 

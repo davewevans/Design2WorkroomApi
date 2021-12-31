@@ -9,5 +9,7 @@
         public Guid DesignerId { get; set; }
 
         public Guid ClientId { get; set; }
+
+        public bool IsArchived { get; set; }
     }
 }
