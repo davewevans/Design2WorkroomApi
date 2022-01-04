@@ -11,5 +11,7 @@
         public Guid ClientId { get; set; }
 
         public bool IsArchived { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }
