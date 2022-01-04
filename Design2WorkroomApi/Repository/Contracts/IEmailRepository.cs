@@ -9,36 +9,18 @@ namespace Design2WorkroomApi.Repository.Contracts
 {
     public interface IEmailRepository
     {
-        ICollection<EmailModel> GetEmails();
+        Task<(bool IsSuccess, EmailModel? Email, string? ErrorMessage)> GetEmailByIdAsync(Guid id);
 
-        Task<ICollection<EmailModel>> GetEmailsAsync();
+        Task<(bool IsSuccess, List<EmailModel>? Emails, string? ErrorMessage)> GetAllEmailsAsync();
 
-        ICollection<EmailModel> GetEmailsByCondition(Expression<Func<EmailModel, bool>> expression);
+        Task<(bool IsSuccess, List<EmailModel>? Emails, string? ErrorMessage)> GetEmailsByConditionAsync(Expression<Func<EmailModel, bool>> expression);
 
-        Task<ICollection<EmailModel>> GetEmailsByConditionAsync(Expression<Func<EmailModel, bool>> expression);
+        Task<(bool IsSuccess, bool Exists, string? ErrorMessage)> EmailExistsAsync(Guid id);
 
-        EmailModel GetEmailById(int EmailId);
+        Task<(bool IsSuccess, string? ErrorMessage)> CreateEmailAsync(EmailModel email);
 
-        Task<EmailModel> GetEmailByIdAsync(int EmailId);
+        Task<(bool IsSuccess, string? ErrorMessage)> UpdateEmailAsync(EmailModel email);
 
-        bool EmailExists(int id);
-
-        Task<bool> EmailExistsAsync(int id);
-
-        bool CreateEmail(EmailModel Email);
-
-        Task<bool> CreateEmailAsync(EmailModel Email);
-
-        bool UpdateEmail(EmailModel Email);
-
-        Task<bool> UpdateEmailAsync(EmailModel Email);
-
-        bool DeleteEmail(int EmailId);
-
-        Task<bool> DeleteEmailAsync(int EmailId);
-
-        bool Save();
-
-        Task<bool> SaveAsync();
+        Task<(bool IsSuccess, string? ErrorMessage)> DeleteEmailAsync(Guid id);
     }
 }

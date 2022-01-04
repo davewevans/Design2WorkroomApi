@@ -30,6 +30,10 @@ namespace Design2WorkroomApi.Helpers
             CreateMap<ProfileModel, ProfileCreateDto>().ReverseMap();
             CreateMap<ProfileModel, ProfileUpdateDto>().ReverseMap();
 
+            CreateMap<EmailModel, EmailDto>().ReverseMap();
+            CreateMap<EmailModel, EmailCreateDto>().ReverseMap();
+            CreateMap<EmailModel, EmailUpdateDto>().ReverseMap();
+
             CreateMap<DesignConceptModel, DesignConceptDto>().ReverseMap();
             CreateMap<DesignConceptModel, DesignConceptCreateDto>().ReverseMap();
         }

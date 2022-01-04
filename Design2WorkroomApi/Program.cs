@@ -46,6 +46,9 @@ builder.Services.ConfigureServices();
 
 builder.Services.ConfigureRepositories();
 
+// For sending emails via Postmark
+builder.Services.AddScoped<IPostmarkEmailSender, EmailSender>();
+
 builder.Services.AddMemoryCache();
 
 builder.Services.Configure<IpRateLimitOptions>((options) =>
