@@ -18,5 +18,7 @@ namespace Design2WorkroomApi.DTOs
         public AppUserRole AppUserRole { get; init; }
 
         public ProfileDto Profile { get; set; } = null!;
+
+        public bool InvitationAccepted { get; set; }
     }
 }

@@ -22,5 +22,7 @@ namespace Design2WorkroomApi.DTOs
         public bool Active { get; set; }
 
         public ProfileDto Profile { get; set; } = null!;
+
+        public bool InvitationAccepted { get; set; }
     }
 }

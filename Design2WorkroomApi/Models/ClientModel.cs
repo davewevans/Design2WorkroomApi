@@ -11,6 +11,9 @@ namespace Design2WorkroomApi.Models
     {
         public ClientModel(string userName, string b2CObjectId) : base(userName, b2CObjectId)
         {
+
         }
+
+        public bool InvitationAccepted { get; set; }
     }
 }

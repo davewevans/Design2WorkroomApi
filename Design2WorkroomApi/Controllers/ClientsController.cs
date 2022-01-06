@@ -97,6 +97,10 @@ namespace Design2WorkroomApi.Controllers
             client.AppUserRole = _appUserHelper.GetAppUserRole(clientCreateDto.UserRole);
             client.CreatedAt = DateTime.UtcNow;
 
+            //
+            /// client.InvitationAccepted
+            /// 
+
             var createResult = await _clientRepo.CreateClientAsync(client);
             if (!createResult.IsSuccess)
             {
@@ -117,6 +121,10 @@ namespace Design2WorkroomApi.Controllers
             if (!getResult.IsSuccess || getResult.Client is null) return NotFound(getResult.ErrorMessage);
             _mapper.Map(clientUpdateDto, getResult.Client);
             getResult.Client.UpdatedAt = DateTime.UtcNow;
+
+            //
+            /// client.InvitationAccepted
+            /// 
 
             var updateResult = await _clientRepo.UpdateClientAsync(getResult.Client);
             if (!updateResult.IsSuccess) return NoContent();
