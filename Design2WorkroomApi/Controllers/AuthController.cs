@@ -79,7 +79,7 @@ namespace Design2WorkroomApi.Controllers
             try
             {
                 _logger.LogInformation("App roles are being requested.");
-                _logger.LogError(JsonSerializer.Serialize(body, new JsonSerializerOptions { WriteIndented = true }));
+                _logger.LogTrace(JsonSerializer.Serialize(body, new JsonSerializerOptions { WriteIndented = true }));
 
                 // Log the incoming request body.
                 _logger.LogInformation("Request body:");
