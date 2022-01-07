@@ -51,12 +51,12 @@ namespace Design2WorkroomApi.Controllers
             // Log the incoming request body.
             _logger.LogInformation("Request body:");
             _logger.LogInformation(JsonSerializer.Serialize(body, new JsonSerializerOptions { WriteIndented = true }));
-
+            return GetValidationErrorApiResponse("CreateUser-InternalError", body.ToString());
             try
             {
                 // Get the object id of the user that is signing in.
                 var objectId = body.GetProperty("objectId").GetString();
-                var appUserRole = body.GetProperty("AppRoles").GetString();
+                //var appUserRole = body.GetProperty("AppRoles").GetString();
                 if(!string.IsNullOrWhiteSpace(objectId))
                 {
                     var email = body.GetProperty("email").GetString();
@@ -80,6 +80,7 @@ namespace Design2WorkroomApi.Controllers
             catch (System.Collections.Generic.KeyNotFoundException ex)
             {
                 _logger.LogInformation(ex.Message);
+                return GetValidationErrorApiResponse("CreateUser-InternalError", ex.ToString());
             }
             
 
