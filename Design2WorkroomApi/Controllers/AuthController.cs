@@ -51,38 +51,35 @@ namespace Design2WorkroomApi.Controllers
             // Log the incoming request body.
             _logger.LogInformation("Request body:");
             _logger.LogInformation(JsonSerializer.Serialize(body, new JsonSerializerOptions { WriteIndented = true }));
-            return GetValidationErrorApiResponse("CreateUser-InternalError", body.ToString());
+            //return GetValidationErrorApiResponse("CreateUser-InternalError", body.ToString());
             try
             {
                 // Get the object id of the user that is signing in.
                 var objectId = body.GetProperty("objectId").GetString();
                 //var appUserRole = body.GetProperty("AppRoles").GetString();
-                if(!string.IsNullOrWhiteSpace(objectId))
+                
+                var email = body.GetProperty("email").GetString();
+                var firstName = body.GetProperty("givenName").GetString();
+                var lastName = body.GetProperty("surname").GetString();
+                var postalCode = body.GetProperty("postalCode").GetString();
+                var city = body.GetProperty("city").GetString();
+                var state = body.GetProperty("state").GetString();
+                var country = body.GetProperty("country").GetString();
+                var designer = new DesignerModel(email, "")
                 {
-                    var email = body.GetProperty("email").GetString();
-                    var firstName = body.GetProperty("givenName").GetString();
-                    var lastName = body.GetProperty("surname").GetString();
-                    var postalCode = body.GetProperty("postalCode").GetString();
-                    var city = body.GetProperty("postalCode").GetString();
-                    var state = body.GetProperty("postalCode").GetString();
-                    var country = body.GetProperty("postalCode").GetString();
-                    var designer = new DesignerModel(email, objectId)
-                    {
-                        AppUserRole = AppUserRole.Designer,
-                        CreatedAt = DateTime.UtcNow,
-                        Profile = new ProfileModel(email, firstName, lastName, null,null, postalCode,null,null,null,null,city,state,country)
-                    };
+                    AppUserRole = AppUserRole.Designer,
+                    CreatedAt = DateTime.UtcNow,
+                    Profile = new ProfileModel(email, firstName, lastName, null,null, postalCode,null,null,null,null,city,state,country)
+                };
 
-                    await _designerRepo.CreateDesignerAsync(designer);
-                }
-
+                await _designerRepo.CreateDesignerAsync(designer);
+                
             }
             catch (System.Collections.Generic.KeyNotFoundException ex)
             {
                 _logger.LogInformation(ex.Message);
-                return GetValidationErrorApiResponse("CreateUser-InternalError", ex.ToString());
+                return GetValidationErrorApiResponse("CreateUser-InternalError", "An error occurred while creating user, please try again later.");
             }
-            
 
             return Ok();
         }
@@ -110,7 +107,7 @@ namespace Design2WorkroomApi.Controllers
                 // Log the incoming request body.
                 _logger.LogInformation("Request body:");
                 _logger.LogInformation(JsonSerializer.Serialize(body, new JsonSerializerOptions { WriteIndented = true }));
-
+                return GetValidationErrorApiResponse("CreateUser-InternalError", body.ToString());
                 // Get the object id of the user that is signing in.
                 var objectId = body.GetProperty("objectId").GetString();
 
