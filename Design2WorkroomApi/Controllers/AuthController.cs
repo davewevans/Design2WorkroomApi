@@ -116,7 +116,7 @@ namespace Design2WorkroomApi.Controllers
                 var email = body.GetProperty("email").GetString();
                 var firstName = body.GetProperty("givenName").GetString();
                 var lastName = body.GetProperty("surname").GetString();
-                var postalCode = body.GetProperty("postalCode").GetString();
+                //var postalCode = body.GetProperty("postalCode").GetString();
                 var city = body.GetProperty("city").GetString();
                 var state = body.GetProperty("state").GetString();
                 var country = body.GetProperty("country").GetString();
@@ -124,7 +124,7 @@ namespace Design2WorkroomApi.Controllers
                 {
                     AppUserRole = AppUserRole.Designer,
                     CreatedAt = DateTime.UtcNow,
-                    Profile = new ProfileModel(email, firstName, lastName, null, null, postalCode, null, null, null, null, city, state, country)
+                    Profile = new ProfileModel(email, firstName, lastName, null, null, null, null, null, null, null, city, state, country)
                 };
 
                 await _designerRepo.CreateDesignerAsync(designer);
