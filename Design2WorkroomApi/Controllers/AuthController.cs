@@ -107,19 +107,34 @@ namespace Design2WorkroomApi.Controllers
                 // Log the incoming request body.
                 _logger.LogInformation("Request body:");
                 _logger.LogInformation(JsonSerializer.Serialize(body, new JsonSerializerOptions { WriteIndented = true }));
-                return GetValidationErrorApiResponse("CreateUser-InternalError", body.ToString());
+                
                 // Get the object id of the user that is signing in.
                 var objectId = body.GetProperty("objectId").GetString();
 
                 // Get the client id of the app that the user is signing in to.
                 var clientId = body.GetProperty("client_id").GetString();
+                var email = body.GetProperty("email").GetString();
+                var firstName = body.GetProperty("givenName").GetString();
+                var lastName = body.GetProperty("surname").GetString();
+                var postalCode = body.GetProperty("postalCode").GetString();
+                var city = body.GetProperty("city").GetString();
+                var state = body.GetProperty("state").GetString();
+                var country = body.GetProperty("country").GetString();
+                var designer = new DesignerModel(email, objectId)
+                {
+                    AppUserRole = AppUserRole.Designer,
+                    CreatedAt = DateTime.UtcNow,
+                    Profile = new ProfileModel(email, firstName, lastName, null, null, postalCode, null, null, null, null, city, state, country)
+                };
+
+                await _designerRepo.CreateDesignerAsync(designer);
 
                 // Retrieve the app roles assigned to the user for the requested application.
-                var appRoles = await _appRolesProvider.GetAppRolesAsync(objectId, clientId);
+                //var appRoles = await _appRolesProvider.GetAppRolesAsync(objectId, clientId);
 
                 // Custom user attributes in Azure AD B2C cannot be collections, so we emit them
                 // into a single claim value separated with spaces.
-                var appRolesValue = (appRoles == null || !appRoles.Any()) ? null : string.Join(' ', appRoles);
+                var appRolesValue = AppUserRole.Designer.ToString();// (appRoles == null || !appRoles.Any()) ? null : string.Join(' ', appRoles);
 
                 return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRolesValue);
             }
