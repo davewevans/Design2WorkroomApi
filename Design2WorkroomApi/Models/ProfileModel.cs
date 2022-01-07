@@ -11,16 +11,19 @@ namespace Design2WorkroomApi.Models
     public class ProfileModel : Entity
     {
         public ProfileModel(
-            string email, 
-            string? firstName = null, 
-            string? lastName = null, 
-            string? phonePrimary = null, 
-            string? phoneSecondary = null, 
-            string? postalCode = null, 
-            string? workroomName = null, 
-            string? contactNamePrimary = null, 
-            string? contactNameSecondary = null, 
-            string? profilePicUrl = null)
+            string email,
+            string? firstName = null,
+            string? lastName = null,
+            string? phonePrimary = null,
+            string? phoneSecondary = null,
+            string? postalCode = null,
+            string? workroomName = null,
+            string? contactNamePrimary = null,
+            string? contactNameSecondary = null,
+            string? profilePicUrl = null,
+            string? city = null,
+            string? state = null,
+            string? country = null)
         {
                 Email = email;
                 FirstName = firstName;
@@ -32,6 +35,9 @@ namespace Design2WorkroomApi.Models
                 ContactNamePrimary = contactNamePrimary;
                 ContactNameSecondary = contactNameSecondary;
                 ProfilePicUrl = profilePicUrl;
+                City = city;
+                State = state;
+                CountryCode = country;
         }
 
         [EmailAddress(ErrorMessage = "Invalid email address.")]

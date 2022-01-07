@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Design2WorkroomApi.DTOs;
+using Design2WorkroomApi.Enums;
 using Design2WorkroomApi.Helpers;
+using Design2WorkroomApi.Models;
 using Design2WorkroomApi.Repository.Contracts;
 using Design2WorkroomApi.Services.Contracts;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +25,7 @@ namespace Design2WorkroomApi.Controllers
         private readonly ILogger<AuthController> _logger;
         private readonly IMapper _mapper;
         private readonly AppUserHelper _appUserHelper;
+        private readonly IDesignerRepository _designerRepo;
         private readonly IAppRolesProvider _appRolesProvider;
         private const string AppRolesAttributeName = "extension_AppRoles";
         private static Random _randomizer = new Random();
@@ -30,12 +33,14 @@ namespace Design2WorkroomApi.Controllers
         public AuthController(ILogger<AuthController> logger,
             IMapper mapper,
             AppUserHelper appUserHelper,
+            IDesignerRepository designerRepo,
             IAppRolesProvider appRolesProvider)
         {
             _logger = logger;
             _mapper = mapper;
             _appUserHelper = appUserHelper;
             _appRolesProvider = appRolesProvider;
+            _designerRepo = designerRepo;
         }
 
         [HttpPost(nameof(CreateNewUser))]
@@ -51,6 +56,26 @@ namespace Design2WorkroomApi.Controllers
             {
                 // Get the object id of the user that is signing in.
                 var objectId = body.GetProperty("objectId").GetString();
+                var appUserRole = body.GetProperty("AppRoles").GetString();
+                if(!string.IsNullOrWhiteSpace(objectId))
+                {
+                    var email = body.GetProperty("email").GetString();
+                    var firstName = body.GetProperty("givenName").GetString();
+                    var lastName = body.GetProperty("surname").GetString();
+                    var postalCode = body.GetProperty("postalCode").GetString();
+                    var city = body.GetProperty("postalCode").GetString();
+                    var state = body.GetProperty("postalCode").GetString();
+                    var country = body.GetProperty("postalCode").GetString();
+                    var designer = new DesignerModel(email, objectId)
+                    {
+                        AppUserRole = AppUserRole.Designer,
+                        CreatedAt = DateTime.UtcNow,
+                        Profile = new ProfileModel(email, firstName, lastName, null,null, postalCode,null,null,null,null,city,state,country)
+                    };
+
+                    await _designerRepo.CreateDesignerAsync(designer);
+                }
+
             }
             catch (System.Collections.Generic.KeyNotFoundException ex)
             {
