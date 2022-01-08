@@ -69,7 +69,7 @@ namespace Design2WorkroomApi.Controllers
                 {
                     AppUserRole = AppUserRole.Designer,
                     CreatedAt = DateTime.UtcNow,
-                    Profile = new ProfileModel(email, firstName, lastName, null,null, postalCode,null,null,null,null,city,state,country)
+                    Profile = new ProfileModel(email, firstName, lastName, null,null, postalCode,null,null,null,null,city,state)
                 };
 
                 await _designerRepo.CreateDesignerAsync(designer);
@@ -124,7 +124,10 @@ namespace Design2WorkroomApi.Controllers
                 {
                     AppUserRole = AppUserRole.Designer,
                     CreatedAt = DateTime.UtcNow,
-                    Profile = new ProfileModel(email, firstName, lastName, null, null, null, null, null, null, null, city, state, country)
+                    Profile = new ProfileModel(email, firstName, lastName, null, null, null, null, null, null, null, city, state,country)
+                    {
+                        CreatedAt = DateTime.UtcNow
+                    }
                 };
 
                 await _designerRepo.CreateDesignerAsync(designer);

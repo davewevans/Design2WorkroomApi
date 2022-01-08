@@ -23,7 +23,7 @@ namespace Design2WorkroomApi.Models
             string? profilePicUrl = null,
             string? city = null,
             string? state = null,
-            string? country = null)
+            string? countryCode = null)
         {
                 Email = email;
                 FirstName = firstName;
@@ -37,7 +37,7 @@ namespace Design2WorkroomApi.Models
                 ProfilePicUrl = profilePicUrl;
                 City = city;
                 State = state;
-                CountryCode = country;
+                CountryCode = countryCode;
         }
 
         [EmailAddress(ErrorMessage = "Invalid email address.")]
