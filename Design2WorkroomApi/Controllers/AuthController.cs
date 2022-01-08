@@ -120,26 +120,41 @@ namespace Design2WorkroomApi.Controllers
                 var city = body.GetProperty("city").GetString();
                 var state = body.GetProperty("state").GetString();
                 var country = body.GetProperty("country").GetString();
-                var designer = new DesignerModel(email, objectId)
+                var existsResult = await _designerRepo.DesignerExistsAsync(email);
+                if (!existsResult.Exists)
                 {
-                    AppUserRole = AppUserRole.Designer,
-                    CreatedAt = DateTime.UtcNow,
-                    Profile = new ProfileModel(email, firstName, lastName, null, null, null, null, null, null, null, city, state,country)
+                    var designer = new DesignerModel(email, objectId)
                     {
-                        CreatedAt = DateTime.UtcNow
-                    }
-                };
+                        AppUserRole = AppUserRole.Designer,
+                        CreatedAt = DateTime.UtcNow,
+                        Profile = new ProfileModel(email, firstName, lastName, null, null, null, null, null, null, null, city, state, country)
+                        {
+                            CreatedAt = DateTime.UtcNow
+                        }
+                    };
 
-                await _designerRepo.CreateDesignerAsync(designer);
+                    await _designerRepo.CreateDesignerAsync(designer);
+                    var appRoles_Value = AppUserRole.Designer.ToString();// (appRoles == null || !appRoles.Any()) ? null : string.Join(' ', appRoles);
+
+                    return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles_Value);
+                }
+                
 
                 // Retrieve the app roles assigned to the user for the requested application.
-                //var appRoles = await _appRolesProvider.GetAppRolesAsync(objectId, clientId);
-
+                var appRoles = await _appRolesProvider.GetAppRolesAsync(email, objectId);
+                if(appRoles.IsSuccess)
+                {
+                    return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles.AppUserRole);
+                }
+                else
+                {
+                    return GetBlockPageApiResponse("GetAppRoles-InternalError", appRoles.ErrorMessage);
+                }
                 // Custom user attributes in Azure AD B2C cannot be collections, so we emit them
                 // into a single claim value separated with spaces.
-                var appRolesValue = AppUserRole.Designer.ToString();// (appRoles == null || !appRoles.Any()) ? null : string.Join(' ', appRoles);
+                //var appRolesValue = AppUserRole.Designer.ToString();// (appRoles == null || !appRoles.Any()) ? null : string.Join(' ', appRoles);
 
-                return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRolesValue);
+                //return GetBlockPageApiResponse("GetAppRoles-InternalError", "An error occurred while determining your app roles, please try again later.");
             }
             catch (Exception exc)
             {

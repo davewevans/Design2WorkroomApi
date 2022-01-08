@@ -8,6 +8,6 @@ namespace Design2WorkroomApi.Services.Contracts
 {
     public interface IAppRolesProvider
 {
-        Task<string> GetAppRolesAsync(string objectId, string clientId);
+        Task<(bool IsSuccess, string? AppUserRole, string? ErrorMessage)> GetAppRolesAsync(string email, string objectId);
     }
 }
