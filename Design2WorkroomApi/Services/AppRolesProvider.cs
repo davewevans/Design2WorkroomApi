@@ -17,7 +17,7 @@ namespace Design2WorkroomApi.Services
         {
             _dbContext = dbContext;
         }
-        public async Task<(bool IsSuccess, string? AppUserRole, string? ErrorMessage)> GetAppRolesAsync(string email,string objectId)
+        public async Task<(bool IsSuccess, string? AppUserRole,string? UserId, string? ErrorMessage)> GetAppRolesAsync(string email,string objectId)
         {
             var designer = await _dbContext.AppUsers
                 .Include(x => x.Profile)
@@ -30,11 +30,12 @@ namespace Design2WorkroomApi.Services
                 if (designerData != null)
                 {
                     var userRole = designerData.AppUserRole.ToString();
-                    return (true, userRole, null);
+                    var user_Id = designerData.Id;
+                    return (true, userRole, user_Id.ToString(), null);
                 }
                 
             }
-            return (false, null, "No designer found");
+            return (false, null,"", "No designer found");
         }
     }
 }
