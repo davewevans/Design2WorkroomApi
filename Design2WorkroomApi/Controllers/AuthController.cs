@@ -28,6 +28,7 @@ namespace Design2WorkroomApi.Controllers
         private readonly IDesignerRepository _designerRepo;
         private readonly IAppRolesProvider _appRolesProvider;
         private const string AppRolesAttributeName = "extension_AppRoles";
+        private const string AppUserIdAttributeName = "extension_UserId";
         private static Random _randomizer = new Random();
 
         public AuthController(ILogger<AuthController> logger,
@@ -133,10 +134,10 @@ namespace Design2WorkroomApi.Controllers
                         }
                     };
 
-                    await _designerRepo.CreateDesignerAsync(designer);
+                    var createResult = await _designerRepo.CreateDesignerAsync(designer);
                     var appRoles_Value = AppUserRole.Designer.ToString();// (appRoles == null || !appRoles.Any()) ? null : string.Join(' ', appRoles);
 
-                    return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles_Value);
+                    return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles_Value, createResult.UserId);
                 }
                 
 
@@ -164,9 +165,9 @@ namespace Design2WorkroomApi.Controllers
         }       
 
 
-        private IActionResult GetContinueApiResponse(string code, string userMessage, string appRoles)
+        private IActionResult GetContinueApiResponse(string code, string userMessage, string appRoles, string UserId = "")
         {
-            return GetB2cApiConnectorResponse("Continue", code, userMessage, 200, appRoles);
+            return GetB2cApiConnectorResponse("Continue", code, userMessage, 200, appRoles, UserId);
         }
 
         private IActionResult GetValidationErrorApiResponse(string code, string userMessage)
@@ -179,14 +180,15 @@ namespace Design2WorkroomApi.Controllers
             return GetB2cApiConnectorResponse("ShowBlockPage", code, userMessage, 200, null);
         }
 
-        private IActionResult GetB2cApiConnectorResponse(string action, string code, string userMessage, int statusCode, string appRoles)
+        private IActionResult GetB2cApiConnectorResponse(string action, string code, string userMessage, int statusCode, string appRoles, string UserId = "")
         {
             var responseProperties = new Dictionary<string, object>
             {
                 { "version", "1.0.0" },
                 { "action", action },
                 { "userMessage", userMessage },
-                { AppRolesAttributeName, appRoles }
+                { AppRolesAttributeName, appRoles },
+                { AppUserIdAttributeName,UserId }
             };
             if (statusCode != 200)
             {

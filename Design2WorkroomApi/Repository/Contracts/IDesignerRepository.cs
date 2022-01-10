@@ -11,7 +11,7 @@ namespace Design2WorkroomApi.Repository.Contracts
 
         Task<(bool IsSuccess, List<DesignerModel>? Designers, string? ErrorMessage)> GetDesignersByConditionAsync(Expression<Func<AppUserBase, bool>> expression);
 
-        Task<(bool IsSuccess, string? ErrorMessage)> CreateDesignerAsync(DesignerModel designer);
+        Task<(bool IsSuccess, string? ErrorMessage, string? UserId)> CreateDesignerAsync(DesignerModel designer);
 
         Task<(bool IsSuccess, string? ErrorMessage)> UpdateDesignerAsync(DesignerModel designer);
 

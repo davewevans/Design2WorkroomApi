@@ -80,17 +80,17 @@ namespace Design2WorkroomApi.Repository
             }
         }
 
-        public async Task<(bool IsSuccess, string? ErrorMessage)> CreateDesignerAsync(DesignerModel designer)
+        public async Task<(bool IsSuccess, string? ErrorMessage, string? UserId)> CreateDesignerAsync(DesignerModel designer)
         {
             try
             {
                 await _dbContext.AppUsers.AddAsync(designer);
                 await _dbContext.SaveChangesAsync();
-                return (true, null);
+                return (true, null, designer.Id.ToString());
             }
             catch (Exception ex)
             {
-                return (false, ex.Message);
+                return (false, ex.Message, "");
             }
         }
 
