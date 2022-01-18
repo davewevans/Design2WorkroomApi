@@ -21,15 +21,23 @@ namespace Design2WorkroomApi.Repository
 
         public async Task<(bool IsSuccess, DesignerModel? Designer, string? ErrorMessage)> GetDesignerByIdAsync(Guid id)
         {
-            var designer = await _dbContext.AppUsers
+            try
+            {
+                var designer = await _dbContext.AppUsers
                 .Include(x => x.Profile)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (designer is not null)
-            {
-                return (true, designer as DesignerModel, null);
+                if (designer is not null)
+                {
+                    return (true, designer as DesignerModel, null);
+                }
             }
+            catch (Exception ex)
+            {
+
+            }
+            
             return (false, null, "No designer found");
         }
 

@@ -9,6 +9,7 @@ namespace Design2WorkroomApi.DTOs
     public record WorkroomCreateDto
     {
         public string UserName { get; init; } = string.Empty;
+        public string Password { get; set; }
 
         // Azure B2C Object Id
         // Identifies user in Azure B2C

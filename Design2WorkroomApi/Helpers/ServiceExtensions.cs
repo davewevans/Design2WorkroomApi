@@ -45,6 +45,7 @@ namespace Design2WorkroomApi.Helpers
             services.AddScoped<IWorkroomRepository, WorkroomRepository>();
             services.AddScoped<IDesignConceptRepository, DesignConceptRepository>();
             services.AddScoped<IEmailRepository, EmailRepository>();
+            services.AddScoped<IInvitationRepository, InvitationRepository>();
         }
     }
 }

@@ -30,18 +30,21 @@ namespace Design2WorkroomApi.Controllers
         private const string AppRolesAttributeName = "extension_AppRoles";
         private const string AppUserIdAttributeName = "extension_UserId";
         private static Random _randomizer = new Random();
+        private readonly IInvitationRepository _invitationRepository;
 
         public AuthController(ILogger<AuthController> logger,
             IMapper mapper,
             AppUserHelper appUserHelper,
             IDesignerRepository designerRepo,
-            IAppRolesProvider appRolesProvider)
+            IAppRolesProvider appRolesProvider,
+            IInvitationRepository invitationRepository)
         {
             _logger = logger;
             _mapper = mapper;
             _appUserHelper = appUserHelper;
             _appRolesProvider = appRolesProvider;
             _designerRepo = designerRepo;
+            _invitationRepository = invitationRepository;
         }
 
         [HttpPost(nameof(CreateNewUser))]
@@ -85,15 +88,56 @@ namespace Design2WorkroomApi.Controllers
             return Ok();
         }
 
-        [HttpPost(nameof(CreateUserWithInvitationCode))]
-        public IActionResult CreateUserWithInvitationCode()
+        [HttpPost(nameof(UpdateUserWithInvitationCode))]
+        public async Task<IActionResult> UpdateUserWithInvitationCode(InvitationModel data)
         {
+            try
+            {
+                await _invitationRepository.UpdateUserWithInvitationAsync(data);
 
-
-
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while processing request body: " + ex.ToString());
+                return GetBlockPageApiResponse("GetAppRoles-InternalError", "An error occurred, please try again later.");
+            }
         }
 
+        [HttpPost(nameof(CreateUserWithInvitationCode))]
+        public async Task<IActionResult> CreateUserWithInvitationCode(InvitationModel data)
+        {
+            try
+            {
+                data.InvitationCode = GenerateInvitationCode();
+                var response = await _invitationRepository.CreateUserWithInvitationAsync(data);
+
+                Guid Id = response.InvitationId;
+
+                return Ok(Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while processing request body: " + ex.ToString());
+                return GetBlockPageApiResponse("GetAppRoles-InternalError", "An error occurred while determining your app roles, please try again later.");
+            }
+        }
+
+        [HttpGet("{id:guid}", Name = "GetInvitationFromId")]
+        public async Task<IActionResult> GetInvitationFromId(Guid id)
+        {
+            try
+            {
+                InvitationModel? modal = (await _invitationRepository.GetInvitationByIdAsync(id)).Invitation;
+
+                return Ok(modal);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while processing request body: " + ex.ToString());
+                return GetBlockPageApiResponse("GetAppRoles-InternalError", "An error occurred while determining your app roles, please try again later.");
+            }
+        }
 
         [HttpPost(nameof(GetAppRoles))]
         public async Task<IActionResult> GetAppRoles([FromBody] JsonElement body)
@@ -163,7 +207,6 @@ namespace Design2WorkroomApi.Controllers
                 return GetBlockPageApiResponse("GetAppRoles-InternalError", "An error occurred while determining your app roles, please try again later.");
             }
         }       
-
 
         private IActionResult GetContinueApiResponse(string code, string userMessage, string appRoles, string UserId = "")
         {
