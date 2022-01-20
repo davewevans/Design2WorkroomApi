@@ -198,7 +198,7 @@ namespace Design2WorkroomApi.Controllers
                 var appRoles = await _appRolesProvider.GetAppRolesAsync(email, objectId);
                 if(appRoles.IsSuccess)
                 {
-                    return GetBlockPageApiResponse("GetAppRoles-InternalError", body.ToString());
+                    return GetBlockPageApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString());
                     //return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles.AppUserRole, appRoles.UserId);
                 }
                 else
