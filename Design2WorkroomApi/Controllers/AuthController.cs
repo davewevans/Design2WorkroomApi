@@ -191,7 +191,7 @@ namespace Design2WorkroomApi.Controllers
                     var appRoles_Value = AppUserRole.Designer.ToString();// (appRoles == null || !appRoles.Any()) ? null : string.Join(' ', appRoles);
 
                     //return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles_Value, createResult.UserId);
-                    return GetBlockPageApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString());
+                    return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString());
                 }
                 
 
@@ -199,7 +199,7 @@ namespace Design2WorkroomApi.Controllers
                 var appRoles = await _appRolesProvider.GetAppRolesAsync(email, objectId);
                 if(appRoles.IsSuccess)
                 {
-                    return GetBlockPageApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString());
+                    return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString());
                     //return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles.AppUserRole, appRoles.UserId);
                 }
                 else
