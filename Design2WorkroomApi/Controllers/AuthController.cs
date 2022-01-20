@@ -166,6 +166,15 @@ namespace Design2WorkroomApi.Controllers
                 var state = body.GetProperty("state").GetString();
                 var country = body.GetProperty("country").GetString();
                 var existsResult = await _designerRepo.DesignerExistsAsync(email);
+                //if(existsResult.Exists)
+                //{
+                //    var getExistsUSer = await _designerRepo.GetDesignerByEmailAsync(email);
+                //    if(getExistsUSer.Designer != null)
+                //    {
+                //        getExistsUSer.Designer.B2CObjectId = objectId;
+                //    }
+                   
+                //}
                 if (!existsResult.Exists)
                 {
                     var designer = new DesignerModel(email, objectId)
@@ -189,7 +198,8 @@ namespace Design2WorkroomApi.Controllers
                 var appRoles = await _appRolesProvider.GetAppRolesAsync(email, objectId);
                 if(appRoles.IsSuccess)
                 {
-                    return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles.AppUserRole, appRoles.UserId);
+                    return GetBlockPageApiResponse("GetAppRoles-InternalError", body);
+                    //return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles.AppUserRole, appRoles.UserId);
                 }
                 else
                 {
