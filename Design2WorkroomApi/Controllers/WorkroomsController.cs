@@ -92,7 +92,8 @@ namespace Design2WorkroomApi.Controllers
                 ModelState.AddModelError("", "Username already exists");
                 return StatusCode(403, ModelState);
             }
-            var workroom = _mapper.Map<WorkroomModel>(workroomCreateDto);
+
+            WorkroomModel workroom = _mapper.Map<WorkroomModel>(workroomCreateDto);
             workroom.AppUserRole = _appUserHelper.GetAppUserRole(workroomCreateDto.UserRole);
             workroom.CreatedAt = DateTime.UtcNow;
 
@@ -107,7 +108,33 @@ namespace Design2WorkroomApi.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            var dto = _mapper.Map<DesignerDto>(workroom);
+            //old code
+            //var dto = _mapper.Map<DesignerDto>(workroom);
+
+            //new code
+            DesignerDto dto = new DesignerDto();
+            dto.UserName = workroom.UserName;
+            dto.Id = workroom.Id;
+            dto.B2CObjectId = workroom.B2CObjectId;
+            dto.AppUserRole = workroom.AppUserRole;
+            dto.Profile = new ProfileDto();
+            dto.Profile.Email = workroom.Profile.Email;
+            dto.Profile.FirstName = workroom.Profile.FirstName;
+            dto.Profile.LastName = workroom.Profile.LastName;
+            dto.Profile.PhonePrimary = workroom.Profile.PhonePrimary;
+            dto.Profile.PhoneSecondary = workroom.Profile.PhoneSecondary;
+            dto.Profile.StreetAddress1 = workroom.Profile?.StreetAddress1;
+            dto.Profile.StreetAddress2 = workroom.Profile?.StreetAddress2;
+            dto.Profile.City = workroom.Profile?.City;
+            dto.Profile.State = workroom.Profile?.State;
+            dto.Profile.PostalCode = workroom.Profile?.PostalCode;
+            dto.Profile.CountryCode = workroom.Profile?.CountryCode;
+            dto.Profile.WorkroomName = workroom.Profile?.WorkroomName;
+            dto.Profile.ContactNamePrimary = workroom.Profile?.ContactNamePrimary;
+            dto.Profile.ContactNameSecondary = workroom.Profile?.ContactNameSecondary;
+            dto.Profile.ProfilePicUrl = workroom.Profile?.ProfilePicUrl;
+            dto.Profile.AppUserId = workroom.Profile.AppUserId;
+
             return CreatedAtRoute(nameof(GetWorkroom), new { id = dto.Id }, dto);
         }
 

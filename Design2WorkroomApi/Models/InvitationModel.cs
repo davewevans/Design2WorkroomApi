@@ -19,8 +19,6 @@ namespace Design2WorkroomApi.Models
             InviteeLastName = inviteeLastName;
         }
 
-        public Guid Id { get; set; }
-
         public string InvitationCode { get; set; } 
 
         public string InviteeEmail { get; set; } 

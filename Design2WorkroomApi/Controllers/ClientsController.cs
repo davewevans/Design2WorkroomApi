@@ -108,7 +108,33 @@ namespace Design2WorkroomApi.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            var dto = _mapper.Map<DesignerDto>(client);
+            //old code
+            //var dto = _mapper.Map<DesignerDto>(client);
+
+            //new code
+            DesignerDto dto = new DesignerDto();
+            dto.UserName = client.UserName;
+            dto.Id = client.Id;
+            dto.B2CObjectId = client.B2CObjectId;
+            dto.AppUserRole = client.AppUserRole;
+            dto.Profile = new ProfileDto();
+            dto.Profile.Email = client.Profile.Email;
+            dto.Profile.FirstName = client.Profile.FirstName;
+            dto.Profile.LastName = client.Profile.LastName;
+            dto.Profile.PhonePrimary = client.Profile.PhonePrimary;
+            dto.Profile.PhoneSecondary = client.Profile.PhoneSecondary;
+            dto.Profile.StreetAddress1 = client.Profile?.StreetAddress1;
+            dto.Profile.StreetAddress2 = client.Profile?.StreetAddress2;
+            dto.Profile.City = client.Profile?.City;
+            dto.Profile.State = client.Profile?.State;
+            dto.Profile.PostalCode = client.Profile?.PostalCode;
+            dto.Profile.CountryCode = client.Profile?.CountryCode;
+            dto.Profile.WorkroomName = client.Profile?.WorkroomName;
+            dto.Profile.ContactNamePrimary = client.Profile?.ContactNamePrimary;
+            dto.Profile.ContactNameSecondary = client.Profile?.ContactNameSecondary;
+            dto.Profile.ProfilePicUrl = client.Profile?.ProfilePicUrl;
+            dto.Profile.AppUserId = client.Profile.AppUserId;
+
             return CreatedAtRoute(nameof(GetClient), new { id = dto.Id }, dto);
         }
 

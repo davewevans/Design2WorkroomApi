@@ -10,17 +10,17 @@ namespace Design2WorkroomApi.DTOs
 {
     public record ProfileDto
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
     
-        public string Email { get; init; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
-        public string FirstName { get; init; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
 
-        public string LastName { get; init; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
 
-        public string PhonePrimary { get; init; } = string.Empty;
+        public string PhonePrimary { get; set; } = string.Empty;
 
-        public string PhoneSecondary { get; init; } = string.Empty;
+        public string PhoneSecondary { get; set; } = string.Empty;
 
         public string StreetAddress1 { get; set; } = string.Empty;
 
@@ -30,18 +30,18 @@ namespace Design2WorkroomApi.DTOs
 
         public string State { get; set; } = string.Empty;
 
-        public string PostalCode { get; init; } = string.Empty;
+        public string PostalCode { get; set; } = string.Empty;
 
         public string CountryCode { get; set; } = string.Empty;
 
-        public string WorkroomName { get; init; } = string.Empty;
+        public string WorkroomName { get; set; } = string.Empty;
 
-        public string ContactNamePrimary { get; init; } = string.Empty;
+        public string ContactNamePrimary { get; set; } = string.Empty;
 
-        public string ContactNameSecondary { get; init; } = string.Empty;
+        public string ContactNameSecondary { get; set; } = string.Empty;
 
         public string ProfilePicUrl { get; set; } = string.Empty;
 
-        public Guid AppUserId { get; init; }
+        public Guid AppUserId { get; set; }
     }
 }
