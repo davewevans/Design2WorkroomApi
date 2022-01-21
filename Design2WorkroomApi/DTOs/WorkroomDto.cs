@@ -11,6 +11,7 @@ namespace Design2WorkroomApi.DTOs
         public Guid Id { get; init; }
 
         public string UserName { get; init; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
 
         // Azure B2C Object Id
         // Identifies user in Azure B2C
