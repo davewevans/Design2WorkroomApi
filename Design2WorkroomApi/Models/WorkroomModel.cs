@@ -13,6 +13,8 @@ namespace Design2WorkroomApi.Models
         {
         }
 
+        public List<WorkOrderModel> Workorders { get; set; }
+
         public bool InvitationAccepted { get; set; }
     }
 }

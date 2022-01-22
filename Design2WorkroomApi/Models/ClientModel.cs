@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Design2WorkroomApi.Models
 {
@@ -13,6 +14,8 @@ namespace Design2WorkroomApi.Models
         {
 
         }
+
+        public List<WorkOrderModel> Workorders { get; set; }
 
         public bool InvitationAccepted { get; set; }
     }

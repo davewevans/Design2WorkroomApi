@@ -4,6 +4,7 @@ using Design2WorkroomApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Design2WorkroomApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220122105607_AddedPropsToWorkorderItems")]
+    partial class AddedPropsToWorkorderItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -739,9 +741,6 @@ namespace Design2WorkroomApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -757,16 +756,9 @@ namespace Design2WorkroomApi.Migrations
                     b.Property<int>("WorkOrderNumber")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("WorkroomId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
-
                     b.HasIndex("DesignerId");
-
-                    b.HasIndex("WorkroomId");
 
                     b.ToTable("WorkOrders");
                 });
@@ -940,25 +932,13 @@ namespace Design2WorkroomApi.Migrations
 
             modelBuilder.Entity("Design2WorkroomApi.Models.WorkOrderModel", b =>
                 {
-                    b.HasOne("Design2WorkroomApi.Models.ClientModel", "Client")
-                        .WithMany("Workorders")
-                        .HasForeignKey("ClientId");
-
                     b.HasOne("Design2WorkroomApi.Models.DesignerModel", "Designer")
                         .WithMany("WorkOrders")
                         .HasForeignKey("DesignerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Design2WorkroomApi.Models.WorkroomModel", "Workroom")
-                        .WithMany("Workorders")
-                        .HasForeignKey("WorkroomId");
-
-                    b.Navigation("Client");
-
                     b.Navigation("Designer");
-
-                    b.Navigation("Workroom");
                 });
 
             modelBuilder.Entity("Design2WorkroomApi.Models.AppUserBase", b =>
@@ -981,11 +961,6 @@ namespace Design2WorkroomApi.Migrations
                     b.Navigation("WorkOrderItems");
                 });
 
-            modelBuilder.Entity("Design2WorkroomApi.Models.ClientModel", b =>
-                {
-                    b.Navigation("Workorders");
-                });
-
             modelBuilder.Entity("Design2WorkroomApi.Models.DesignerModel", b =>
                 {
                     b.Navigation("Contracts");
@@ -1002,11 +977,6 @@ namespace Design2WorkroomApi.Migrations
                         .IsRequired();
 
                     b.Navigation("WorkOrders");
-                });
-
-            modelBuilder.Entity("Design2WorkroomApi.Models.WorkroomModel", b =>
-                {
-                    b.Navigation("Workorders");
                 });
 #pragma warning restore 612, 618
         }

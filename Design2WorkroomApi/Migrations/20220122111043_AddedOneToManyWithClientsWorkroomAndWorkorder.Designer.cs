@@ -4,6 +4,7 @@ using Design2WorkroomApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Design2WorkroomApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220122111043_AddedOneToManyWithClientsWorkroomAndWorkorder")]
+    partial class AddedOneToManyWithClientsWorkroomAndWorkorder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -757,7 +759,7 @@ namespace Design2WorkroomApi.Migrations
                     b.Property<int>("WorkOrderNumber")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("WorkroomId")
+                    b.Property<Guid?>("WorkRoomId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -766,7 +768,7 @@ namespace Design2WorkroomApi.Migrations
 
                     b.HasIndex("DesignerId");
 
-                    b.HasIndex("WorkroomId");
+                    b.HasIndex("WorkRoomId");
 
                     b.ToTable("WorkOrders");
                 });
@@ -952,7 +954,7 @@ namespace Design2WorkroomApi.Migrations
 
                     b.HasOne("Design2WorkroomApi.Models.WorkroomModel", "Workroom")
                         .WithMany("Workorders")
-                        .HasForeignKey("WorkroomId");
+                        .HasForeignKey("WorkRoomId");
 
                     b.Navigation("Client");
 

@@ -10,5 +10,6 @@ namespace Design2WorkroomApi.Models
     [Table(name: "Dimensions")]
     public class DimensionsModel : Entity
     {
+
     }
 }

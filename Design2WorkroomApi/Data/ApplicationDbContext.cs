@@ -1,5 +1,6 @@
 ﻿using Design2WorkroomApi.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace Design2WorkroomApi.Data
 {
@@ -48,6 +49,17 @@ namespace Design2WorkroomApi.Data
                 .WithOne(f => f.ParentAppUser)
                 .HasForeignKey(f => f.AppUserParentId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            // Configure one-to-many relationships
+            builder.Entity<WorkOrderModel>()
+                .HasOne(p => p.Client)
+                .WithMany(b => b.Workorders)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            builder.Entity<WorkOrderModel>()
+                .HasOne(p => p.Workroom)
+                .WithMany(b => b.Workorders)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             base.OnModelCreating(builder);
         }
