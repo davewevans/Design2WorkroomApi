@@ -13,11 +13,11 @@ namespace Design2WorkroomApi.Controllers
     [ApiController]
     public class DesignConceptsController : ControllerBase
     {
-        private readonly ILogger<ClientsController> _logger;
+        private readonly ILogger<DesignConceptsController> _logger;
         private readonly IMapper _mapper;
         private readonly IDesignConceptRepository _designConceptRepo;
 
-        public DesignConceptsController(ILogger<ClientsController> logger, IMapper mapper, IDesignConceptRepository designConceptRepo)
+        public DesignConceptsController(ILogger<DesignConceptsController> logger, IMapper mapper, IDesignConceptRepository designConceptRepo)
         {
             _logger = logger;
             _mapper = mapper;
