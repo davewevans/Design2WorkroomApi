@@ -70,14 +70,15 @@ namespace Design2WorkroomApi.Controllers
                 var city = body.GetProperty("city").GetString();
                 var state = body.GetProperty("state").GetString();
                 var country = body.GetProperty("country").GetString();
-                var designer = new DesignerModel(email, "")
-                {
-                    AppUserRole = AppUserRole.Designer,
-                    CreatedAt = DateTime.UtcNow,
-                    Profile = new ProfileModel(email, firstName, lastName, null,null, postalCode,null,null,null,null,city,state)
-                };
+                return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", "", "", firstName + " " + lastName);
+                //var designer = new DesignerModel(email, "")
+                //{
+                //    AppUserRole = AppUserRole.Designer,
+                //    CreatedAt = DateTime.UtcNow,
+                //    Profile = new ProfileModel(email, firstName, lastName, null,null, postalCode,null,null,null,null,city,state)
+                //};
 
-                await _designerRepo.CreateDesignerAsync(designer);
+                //await _designerRepo.CreateDesignerAsync(designer);
                 
             }
             catch (System.Collections.Generic.KeyNotFoundException ex)
