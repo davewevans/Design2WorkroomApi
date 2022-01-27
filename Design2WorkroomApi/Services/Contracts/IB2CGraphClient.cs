@@ -5,6 +5,6 @@ namespace Design2WorkroomApi.Services.Contracts
 {
     public interface IB2CGraphClient
     {
-        Task<(bool IsSuccess, string? userObjectId, string? ErrorMessage)> CreateUser(Microsoft.Graph.User User);
+        Task<(bool IsSuccess, B2CUserResponse? userObject, string? ErrorMessage)> CreateUser(Microsoft.Graph.User User);
     }
 }

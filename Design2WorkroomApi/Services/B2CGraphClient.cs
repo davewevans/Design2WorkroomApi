@@ -18,7 +18,7 @@ namespace Design2WorkroomApi.Services
         private readonly IConfiguration _config;
         public static string aadInstance = "https://login.microsoftonline.com/";
         public static string aadGraphResourceId = "https://graph.microsoft.com/.default";
-        public static string aadGraphEndpoint = "https://graph.windows.net/";
+        public static string aadGraphEndpoint = "https://graph.microsoft.com/";
         public static string aadGraphSuffix = "";
         public static string aadGraphVersion = "api-version=1.6";
         private string clientId { get; set; }
@@ -44,20 +44,26 @@ namespace Design2WorkroomApi.Services
         }
 
 
-        public async Task<(bool IsSuccess, string? userObjectId, string? ErrorMessage)> CreateUser(Microsoft.Graph.User User)
+        public async Task<(bool IsSuccess, B2CUserResponse? userObject, string? ErrorMessage)> CreateUser(Microsoft.Graph.User User)
         {
             return await SendGraphPostRequest("/users", User);
         }
        
 
-        private async Task<(bool IsSuccess, string? Clients, string? ErrorMessage)> SendGraphPostRequest(string api, Microsoft.Graph.User User)
+        private async Task<(bool IsSuccess, B2CUserResponse? userObject, string? ErrorMessage)> SendGraphPostRequest(string api, Microsoft.Graph.User User)
         {
             try
             {
+                B2CUserResponse userResponseObject = new B2CUserResponse();
                 Microsoft.Graph.User userResponse = await graphClient.Users.Request().AddAsync(User);
                 if(userResponse != null)
                 {
-                    return (true, userResponse.Id, $"Error while creating User '{userResponse.DisplayName}' on Azure B2C.");
+                    userResponseObject.FirstName = userResponse.GivenName;
+                    userResponseObject.LastName = userResponse.Surname;
+                    userResponseObject.Email = User.Identities.Select(x => x.IssuerAssignedId).FirstOrDefault();
+                    userResponseObject.Password = User.PasswordProfile.Password;
+                    userResponseObject.B2cObjectId = userResponse.Id;
+                    return (true, userResponseObject, $"Error while creating User '{userResponse.DisplayName}' on Azure B2C.");
                 }
                 else
                 {

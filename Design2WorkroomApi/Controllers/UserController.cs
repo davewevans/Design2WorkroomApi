@@ -69,7 +69,7 @@ namespace Design2WorkroomApi.Controllers
             var response = await _b2cUserHelper.CreateUser(createB2cUser);
             if(response.IsSuccess)
             {
-                return Ok(response.userObjectId);
+                return Ok(JsonConvert.SerializeObject(response.userObject));
             }
             else
             {
