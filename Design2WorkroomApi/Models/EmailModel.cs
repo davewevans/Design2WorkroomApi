@@ -36,7 +36,7 @@ namespace Design2WorkroomApi.Models
         public DateTime? DateReceived { get; set; }
 
         [ForeignKey(nameof(DesignerModel))]
-        public Guid DesignerId { get; set; }
+        public Guid? DesignerId { get; set; }
 
         public DesignerModel Designer { get; set; } = null!;
     }

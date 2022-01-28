@@ -1,4 +1,5 @@
-﻿using Design2WorkroomApi.Models;
+﻿using Design2WorkroomApi.DTOs;
+using Design2WorkroomApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,7 @@ namespace Design2WorkroomApi.Repository.Contracts
         Task<(bool IsSuccess, string? ErrorMessage)> UpdateEmailAsync(EmailModel email);
 
         Task<(bool IsSuccess, string? ErrorMessage)> DeleteEmailAsync(Guid id);
+
+        Task<(bool IsSuccess, string? ErrorMessage)> InboundEmailPostmarkWebHookAsync(InboundEmailPostmark email);
     }
 }

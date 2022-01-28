@@ -1,4 +1,5 @@
 ﻿using Design2WorkroomApi.Data;
+using Design2WorkroomApi.DTOs;
 using Design2WorkroomApi.Enums;
 using Design2WorkroomApi.Models;
 using Design2WorkroomApi.Repository.Contracts;
@@ -18,6 +19,49 @@ namespace Design2WorkroomApi.Repository
         public EmailRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public async Task<(bool IsSuccess, string? ErrorMessage)> InboundEmailPostmarkWebHookAsync(InboundEmailPostmark email)
+        {
+            try
+            {
+                EmailModel LocalEmail = new EmailModel();
+                LocalEmail.FromEmailAddress = email.From;
+                LocalEmail.ToEmailAddress = email.ToFull.Email;
+                LocalEmail.Subject = email.Subject;
+                LocalEmail.DateReceived = DateTime.Now;
+                LocalEmail.HtmlBody = email.HtmlBody;
+                LocalEmail.Status = EmailStatus.Received;
+                LocalEmail.DesignerId = null;
+
+                //other not null fields
+                LocalEmail.TextBody = "";
+                LocalEmail.Tag = "";
+                LocalEmail.MessageStream = "";
+                LocalEmail.CreatedAt = DateTime.Now;
+
+                await _dbContext.Emails.AddAsync(LocalEmail);
+
+                foreach (var attachment in email.Attachments)
+                {
+                    AttachmentsModel AttachmentModel = new AttachmentsModel();
+                    AttachmentModel.EmailId = LocalEmail.Id;
+                    AttachmentModel.Name = attachment.Name;
+                    AttachmentModel.Content = attachment.Content;
+                    AttachmentModel.ContentType = attachment.ContentType;
+                    AttachmentModel.ContentLength = attachment.ContentLength;
+
+                    await _dbContext.Attachments.AddAsync(AttachmentModel);
+                }
+
+                await _dbContext.SaveChangesAsync();
+
+                return (true, null);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
         }
 
         public async Task<(bool IsSuccess, EmailModel? Email, string? ErrorMessage)> GetEmailByIdAsync(Guid id)
@@ -102,7 +146,6 @@ namespace Design2WorkroomApi.Repository
                 return (false, ex.Message);
             }
         }
-
 
         public async Task<(bool IsSuccess, string? ErrorMessage)> UpdateEmailAsync(EmailModel email)
         {

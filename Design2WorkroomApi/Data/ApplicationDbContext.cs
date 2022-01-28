@@ -83,5 +83,6 @@ namespace Design2WorkroomApi.Data
         public DbSet<WorkOrderModel> WorkOrders { get; set; } = default!;
         public DbSet<DesignConceptModel> DesignConcepts { get; set; } = default!;
         public DbSet<InvitationModel> Invitations { get; set; } = default!;
+        public DbSet<AttachmentsModel> Attachments { get; set; } = default!;
     }
 }

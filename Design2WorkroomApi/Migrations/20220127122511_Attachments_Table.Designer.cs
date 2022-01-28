@@ -4,6 +4,7 @@ using Design2WorkroomApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Design2WorkroomApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220127122511_Attachments_Table")]
+    partial class Attachments_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,18 +94,12 @@ namespace Design2WorkroomApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("EmailId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -245,7 +241,7 @@ namespace Design2WorkroomApi.Migrations
                     b.Property<DateTime?>("DateSent")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("DesignerId")
+                    b.Property<Guid>("DesignerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FromEmailAddress")
@@ -894,7 +890,9 @@ namespace Design2WorkroomApi.Migrations
                 {
                     b.HasOne("Design2WorkroomApi.Models.DesignerModel", "Designer")
                         .WithMany("Emails")
-                        .HasForeignKey("DesignerId");
+                        .HasForeignKey("DesignerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Designer");
                 });

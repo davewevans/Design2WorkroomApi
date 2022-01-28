@@ -85,6 +85,18 @@ namespace Design2WorkroomApi.Controllers
             return Ok(dto);
         }
 
+        [HttpPost("InboundEmailPostmarkWebHookAsync")]
+        public async Task<IActionResult> InboundEmailPostmarkWebHookAsync([FromBody] InboundEmailPostmark email)
+        {
+            var createResult = await _emailRepo.InboundEmailPostmarkWebHookAsync(email);
+            if (!createResult.IsSuccess)
+            {
+                ModelState.AddModelError("", $"Something went wrong when saving the record.");
+                return StatusCode(500, ModelState);
+            }
+            return Ok();
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateEmail([FromBody] EmailCreateDto emailCreateDto)
         {
