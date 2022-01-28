@@ -46,7 +46,7 @@ namespace Design2WorkroomApi.Repository
             var designer = await _dbContext.AppUsers
                 .Include(x => x.Profile)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.UserName == Email);
+                .FirstOrDefaultAsync(x => x.UserName == Email && x.AppUserRole == AppUserRole.Designer);
 
             if (designer is not null)
             {

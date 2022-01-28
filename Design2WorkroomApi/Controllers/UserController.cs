@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Graph;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Security.Claims;
 
 namespace Design2WorkroomApi.Controllers
@@ -43,6 +44,7 @@ namespace Design2WorkroomApi.Controllers
         {
             var createB2cUser = new Microsoft.Graph.User()
             {
+                AccountEnabled = true,
                 GivenName = b2cUser.FirstName,
                 Surname = b2cUser.LastName,
                 DisplayName = b2cUser.FirstName + " " + b2cUser.LastName,
@@ -60,14 +62,20 @@ namespace Design2WorkroomApi.Controllers
                     Password = Helpers.PasswordHelper.GenerateNewPassword(4, 8, 4),
                     ForceChangePasswordNextSignIn = true
                 },
+                ODataType = null,
                 PasswordPolicies = "DisablePasswordExpiration",
             };
 
-            var b2cUserText = JsonConvert.SerializeObject(createB2cUser);
-
-            var response = await _b2cUserHelper.CreateUser(b2cUserText);
-
-            return Ok(response);
+            var response = await _b2cUserHelper.CreateUser(createB2cUser);
+            if(response.IsSuccess)
+            {
+                return Ok(JsonConvert.SerializeObject(response.userObject));
+            }
+            else
+            {
+                return BadRequest(response.ErrorMessage);
+            }
+            //return Ok(response);
         }
     }
 }
