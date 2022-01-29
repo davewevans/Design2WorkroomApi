@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Design2WorkroomApi.DTOs;
 using Design2WorkroomApi.Helpers;
 using Design2WorkroomApi.Models;
 using Design2WorkroomApi.Repository.Contracts;
@@ -21,12 +22,14 @@ namespace Design2WorkroomApi.Controllers
         private readonly IMapper _mapper;
         private readonly IClientRepository _clientRepo;
         private readonly IB2CGraphClient _b2cUserHelper;
+        private readonly IAppRolesProvider _appRolesProvider;
         private readonly AppUserHelper _appUserHelper;
 
         public UserController(ILogger<UserController> logger,
             IMapper mapper,
             IClientRepository clientRepo,
             IB2CGraphClient b2CGraphClient,
+            IAppRolesProvider appRolesProvider,
             AppUserHelper appUserHelper,
             IConfiguration configuration)
         {
@@ -34,6 +37,7 @@ namespace Design2WorkroomApi.Controllers
             _mapper = mapper;
             _clientRepo = clientRepo;
             _b2cUserHelper = b2CGraphClient;
+            _appRolesProvider = appRolesProvider;
             _appUserHelper = appUserHelper;
             _config = configuration;
         }
@@ -76,6 +80,21 @@ namespace Design2WorkroomApi.Controllers
                 return BadRequest(response.ErrorMessage);
             }
             //return Ok(response);
+        }
+
+        [HttpGet("{objectId:guid}", Name = "GetUserRoleByObjectId")]
+        public async Task<IActionResult> getUserRole(string objectId)
+        {
+            var response = await _appRolesProvider.GetAppRolesByobjectId(objectId);
+            if (response.IsSuccess)
+            {
+                var userData = _mapper.Map<UserDto>(response.userData);
+                return Ok(userData);
+            }
+            else
+            {
+                return BadRequest(response.ErrorMessage);
+            }
         }
     }
 }

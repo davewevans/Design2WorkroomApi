@@ -1,10 +1,9 @@
 ﻿using Design2WorkroomApi.Enums;
 
-namespace Design2WorkroomApi.Models
+namespace Design2WorkroomApi.DTOs
 {
-    public class User
+    public class UserDto
     {
-        
         public Guid Id { get; set; }
 
         public string UserName { get; set; } = string.Empty;
@@ -16,7 +15,6 @@ namespace Design2WorkroomApi.Models
         // Admin, Designer, Client, Workroom
         public AppUserRole AppUserRole { get; set; }
 
-        public ProfileModel Profile { get; set; } = null!;
-    
+        public ProfileDto Profile { get; set; } = null!;
     }
 }

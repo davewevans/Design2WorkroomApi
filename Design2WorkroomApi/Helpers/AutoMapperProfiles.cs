@@ -44,6 +44,7 @@ namespace Design2WorkroomApi.Helpers
             CreateMap<WorkOrderItemModel, WorkOrderItemDto>().ReverseMap();
             CreateMap<WorkOrderItemModel, WorkOrderItemCreateDto>().ReverseMap();
             CreateMap<WorkOrderItemModel, WorkOrderItemUpdateDto>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();
         }
     }
 }
