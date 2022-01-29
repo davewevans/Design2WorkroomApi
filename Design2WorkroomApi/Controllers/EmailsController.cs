@@ -86,11 +86,8 @@ namespace Design2WorkroomApi.Controllers
         }
 
         [HttpPost("InboundEmailPostmarkWebHookAsync")]
-        //public async Task<IActionResult> InboundEmailPostmarkWebHookAsync([FromBody] InboundEmailPostmark email)
-        public async Task<IActionResult> InboundEmailPostmarkWebHookAsync([FromBody] string data)
+        public async Task<IActionResult> InboundEmailPostmarkWebHookAsync([FromBody] InboundEmailPostmark email)
         {
-            InboundEmailPostmark email = Newtonsoft.Json.JsonConvert.DeserializeObject<InboundEmailPostmark>(data);
-
             var createResult = await _emailRepo.InboundEmailPostmarkWebHookAsync(email);
             if (!createResult.IsSuccess)
             {
