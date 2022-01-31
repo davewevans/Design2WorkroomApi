@@ -87,9 +87,9 @@ namespace Design2WorkroomApi.Controllers
         }
 
         [HttpPost("InboundEmailPostmarkWebHookAsync")]
-        public async Task<IActionResult> InboundEmailPostmarkWebHookAsync([FromBody] PostmarkInboundWebhookMessage email)
+        public async Task<IActionResult> InboundEmailPostmarkWebHookAsync([FromBody] PostmarkInboundWebhookMessage message)
         {
-            var createResult = await _emailRepo.InboundEmailPostmarkWebHookAsync(email);
+            var createResult = await _emailRepo.InboundEmailPostmarkWebHookAsync(message);
             if (!createResult.IsSuccess)
             {
                 ModelState.AddModelError("", $"Something went wrong when saving the record.");
