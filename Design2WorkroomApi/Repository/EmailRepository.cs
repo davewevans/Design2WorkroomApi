@@ -16,10 +16,12 @@ namespace Design2WorkroomApi.Repository
     public class EmailRepository : IEmailRepository
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly ILogger<EmailRepository> _logger;
 
-        public EmailRepository(ApplicationDbContext dbContext)
+        public EmailRepository(ApplicationDbContext dbContext, ILogger<EmailRepository> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         public async Task<(bool IsSuccess, string? ErrorMessage)> InboundEmailPostmarkWebHookAsync(PostmarkInboundWebhookMessage email)
@@ -80,6 +82,7 @@ namespace Design2WorkroomApi.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message + "$$$Inner : " + ex.InnerException.Message);
                 return (false, ex.Message + " Inner Exception:" + ex.InnerException.Message);
             }
         }
