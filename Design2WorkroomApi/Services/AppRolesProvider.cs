@@ -20,21 +20,16 @@ namespace Design2WorkroomApi.Services
         }
         public async Task<(bool IsSuccess, string? AppUserRole,string? UserId, string? ErrorMessage)> GetAppRolesAsync(string email,string objectId)
         {
-            var designer = await _dbContext.AppUsers
+            var user = await _dbContext.AppUsers
                 .Include(x => x.Profile)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.UserName == email && x.B2CObjectId == objectId);
 
-            if (designer is not null)
+            if (user is not null)
             {
-                var designerData = designer as DesignerModel;
-                if (designerData != null)
-                {
-                    var userRole = designerData.AppUserRole.ToString();
-                    var user_Id = designerData.Id;
-                    return (true, userRole, user_Id.ToString(), null);
-                }
-                
+                var userRole = user.AppUserRole.ToString();
+                var user_Id = user.Id;
+                return (true, userRole, user_Id.ToString(), null);
             }
             return (false, null,"", "No designer found");
         }
