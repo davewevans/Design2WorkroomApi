@@ -42,17 +42,20 @@ namespace Design2WorkroomApi.Repository
 
                 bool FirstEmailFlag = true;
                 LocalEmail.ToEmailAddress = "";
-                foreach (var item in email.ToFull)
+                if(email.ToFull.Count() > 0)
                 {
-                    if(FirstEmailFlag == true)
+                    foreach (var item in email.ToFull)
                     {
-                        FirstEmailFlag = false;
+                        if (FirstEmailFlag == true)
+                        {
+                            FirstEmailFlag = false;
 
-                        LocalEmail.ToEmailAddress += item.Email;
-                    }
-                    else
-                    {
-                        LocalEmail.ToEmailAddress += ", " + item.Email;
+                            LocalEmail.ToEmailAddress += item.Email;
+                        }
+                        else
+                        {
+                            LocalEmail.ToEmailAddress += ", " + item.Email;
+                        }
                     }
                 }
 
@@ -76,7 +79,7 @@ namespace Design2WorkroomApi.Repository
             }
             catch (Exception ex)
             {
-                return (false, ex.Message);
+                return (false, ex.ToString());
             }
         }
 
