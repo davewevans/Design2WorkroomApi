@@ -12,6 +12,6 @@ namespace Design2WorkroomApi.Models
         public string Name { get; set; }
         public string Content { get; set; }
         public string ContentType { get; set; }
-        public int ContentLength { get; set; }
+        public long ContentLength { get; set; }
     }
 }

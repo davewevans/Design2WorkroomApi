@@ -4,6 +4,7 @@ using Design2WorkroomApi.Enums;
 using Design2WorkroomApi.Models;
 using Design2WorkroomApi.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
+using PostmarkDotNet.Webhooks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +22,12 @@ namespace Design2WorkroomApi.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<(bool IsSuccess, string? ErrorMessage)> InboundEmailPostmarkWebHookAsync(InboundEmailPostmark email)
+        public async Task<(bool IsSuccess, string? ErrorMessage)> InboundEmailPostmarkWebHookAsync(PostmarkInboundWebhookMessage email)
         {
             try
             {
                 EmailModel LocalEmail = new EmailModel();
                 LocalEmail.FromEmailAddress = email.From;
-                LocalEmail.ToEmailAddress = email.ToFull.Email;
                 LocalEmail.Subject = email.Subject;
                 LocalEmail.DateReceived = DateTime.Now;
                 LocalEmail.HtmlBody = email.HtmlBody;
@@ -39,6 +39,22 @@ namespace Design2WorkroomApi.Repository
                 LocalEmail.Tag = "";
                 LocalEmail.MessageStream = "";
                 LocalEmail.CreatedAt = DateTime.Now;
+
+                bool FirstEmailFlag = true;
+                LocalEmail.ToEmailAddress = "";
+                foreach (var item in email.ToFull)
+                {
+                    if(FirstEmailFlag == true)
+                    {
+                        FirstEmailFlag = false;
+
+                        LocalEmail.ToEmailAddress += item.Email;
+                    }
+                    else
+                    {
+                        LocalEmail.ToEmailAddress += ", " + item.Email;
+                    }
+                }
 
                 await _dbContext.Emails.AddAsync(LocalEmail);
 

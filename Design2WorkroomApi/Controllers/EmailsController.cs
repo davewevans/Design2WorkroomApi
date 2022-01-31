@@ -11,6 +11,7 @@ using Design2WorkroomApi.DTOs;
 using Design2WorkroomApi.Helpers;
 using Design2WorkroomApi.Models;
 using Microsoft.AspNetCore.OData.Query;
+using PostmarkDotNet.Webhooks;
 
 namespace Design2WorkroomApi.Controllers
 {
@@ -86,7 +87,7 @@ namespace Design2WorkroomApi.Controllers
         }
 
         [HttpPost("InboundEmailPostmarkWebHookAsync")]
-        public async Task<IActionResult> InboundEmailPostmarkWebHookAsync([FromBody] InboundEmailPostmark email)
+        public async Task<IActionResult> InboundEmailPostmarkWebHookAsync([FromBody] PostmarkInboundWebhookMessage email)
         {
             var createResult = await _emailRepo.InboundEmailPostmarkWebHookAsync(email);
             if (!createResult.IsSuccess)
