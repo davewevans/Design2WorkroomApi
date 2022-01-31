@@ -69,6 +69,7 @@ namespace Design2WorkroomApi.Repository
                     AttachmentModel.Content = attachment.Content;
                     AttachmentModel.ContentType = attachment.ContentType;
                     AttachmentModel.ContentLength = attachment.ContentLength;
+                    AttachmentModel.CreatedAt = DateTime.Now;
 
                     await _dbContext.Attachments.AddAsync(AttachmentModel);
                 }
@@ -79,7 +80,7 @@ namespace Design2WorkroomApi.Repository
             }
             catch (Exception ex)
             {
-                return (false, ex.ToString());
+                return (false, ex.Message + " Inner Exception:" + ex.InnerException.Message);
             }
         }
 
