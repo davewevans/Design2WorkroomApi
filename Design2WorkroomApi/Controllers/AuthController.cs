@@ -164,9 +164,22 @@ namespace Design2WorkroomApi.Controllers
                 var firstName = body.GetProperty("givenName").GetString();
                 var lastName = body.GetProperty("surname").GetString();
                 //var postalCode = body.GetProperty("postalCode").GetString();
-                var city = body.GetProperty("city").GetString();
-                var state = body.GetProperty("state").GetString();
-                var country = body.GetProperty("country").GetString();
+                var city = "";
+                if (body.TryGetProperty("city",out JsonElement jsonElement))
+                {
+                    city = body.GetProperty("city").GetString();
+                }
+                
+                var state = ""
+                if (body.TryGetProperty("state", out JsonElement jsonElement1))
+                {
+                    state = body.GetProperty("state").GetString();
+                }
+                var country = ""
+                if (body.TryGetProperty("country", out JsonElement jsonElement2))
+                {
+                    country = body.GetProperty("country").GetString();
+                }
                 var existsResult = await _designerRepo.DesignerExistsAsync(email);
                 //if(existsResult.Exists)
                 //{
