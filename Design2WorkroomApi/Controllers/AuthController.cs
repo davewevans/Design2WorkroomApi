@@ -192,8 +192,8 @@ namespace Design2WorkroomApi.Controllers
                     var createResult = await _designerRepo.CreateDesignerAsync(designer);
                     var appRoles_Value = AppUserRole.Designer.ToString();// (appRoles == null || !appRoles.Any()) ? null : string.Join(' ', appRoles);
 
-                    return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles_Value, createResult.UserId, firstName + " " + lastName);
-                    //return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString());
+                    //return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles_Value, createResult.UserId, firstName + " " + lastName);
+                    return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString());
                 }
                 
 
@@ -201,8 +201,8 @@ namespace Design2WorkroomApi.Controllers
                 var appRoles = await _appRolesProvider.GetAppRolesAsync(email, objectId);
                 if(appRoles.IsSuccess)
                 {
-                    //return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString());
-                    return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles.AppUserRole, appRoles.UserId, firstName + " " + lastName);
+                    return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString() + "$$appRoles : " + appRoles.AppUserRole + "$$UserId : " + appRoles.UserId + "Name : " + firstName + " " + lastName);
+                    //return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles.AppUserRole, appRoles.UserId, firstName + " " + lastName);
                 }
                 else
                 {
@@ -233,7 +233,7 @@ namespace Design2WorkroomApi.Controllers
 
         private IActionResult GetBlockPageApiResponse(string code, string userMessage)
         {
-            return GetB2cApiConnectorResponse("ShowBlockPage", code, userMessage, 200, null);
+            return GetB2cApiConnectorResponse("ShowBlockPage", code, userMessage, 400, null);
         }
 
         private IActionResult GetB2cApiConnectorResponse(string action, string code, string userMessage, int statusCode, string appRoles, string UserId = "", string userName = "")
