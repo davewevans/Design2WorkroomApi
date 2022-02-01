@@ -169,13 +169,13 @@ namespace Design2WorkroomApi.Controllers
                 {
                     city = body.GetProperty("city").GetString();
                 }
-                
-                var state = ""
+
+                var state = "";
                 if (body.TryGetProperty("state", out JsonElement jsonElement1))
                 {
                     state = body.GetProperty("state").GetString();
                 }
-                var country = ""
+                var country = "";
                 if (body.TryGetProperty("country", out JsonElement jsonElement2))
                 {
                     country = body.GetProperty("country").GetString();
@@ -205,8 +205,8 @@ namespace Design2WorkroomApi.Controllers
                     var createResult = await _designerRepo.CreateDesignerAsync(designer);
                     var appRoles_Value = AppUserRole.Designer.ToString();// (appRoles == null || !appRoles.Any()) ? null : string.Join(' ', appRoles);
 
-                    //return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles_Value, createResult.UserId, firstName + " " + lastName);
-                    return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString());
+                    return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles_Value, createResult.UserId, firstName + " " + lastName);
+                    //return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString());
                 }
                 
 
@@ -214,8 +214,8 @@ namespace Design2WorkroomApi.Controllers
                 var appRoles = await _appRolesProvider.GetAppRolesAsync(email, objectId);
                 if(appRoles.IsSuccess)
                 {
-                    return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString() + "$$appRoles : " + appRoles.AppUserRole + "$$UserId : " + appRoles.UserId + "Name : " + firstName + " " + lastName);
-                    //return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles.AppUserRole, appRoles.UserId, firstName + " " + lastName);
+                    //return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString() + "$$appRoles : " + appRoles.AppUserRole + "$$UserId : " + appRoles.UserId + "Name : " + firstName + " " + lastName);
+                    return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles.AppUserRole, appRoles.UserId, firstName + " " + lastName);
                 }
                 else
                 {
