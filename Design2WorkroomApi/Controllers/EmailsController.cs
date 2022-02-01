@@ -86,7 +86,7 @@ namespace Design2WorkroomApi.Controllers
             return Ok(dto);
         }
 
-        [HttpPost]
+        [HttpPost("PostInboundWebhook")]
         public async Task<IActionResult> PostInboundWebhook([FromBody] PostmarkInboundWebhookMessage message)
         {
             var createResult = await _emailRepo.InboundEmailPostmarkWebHookAsync(message);
