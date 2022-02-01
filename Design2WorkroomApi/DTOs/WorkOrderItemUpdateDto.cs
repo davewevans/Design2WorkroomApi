@@ -14,6 +14,6 @@
 
         public string Fabric { get; set; }
 
-        public Guid WorkOrderId { get; set; }
+        public Guid? WorkOrderId { get; set; }
     }
 }

@@ -4,7 +4,7 @@ namespace Design2WorkroomApi.DTOs
 {
     public class WorkOrderDto
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
 
         public int WorkOrderNumber { get; set; }
 

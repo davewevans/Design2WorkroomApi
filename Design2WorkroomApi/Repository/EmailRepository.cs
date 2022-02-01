@@ -34,7 +34,10 @@ namespace Design2WorkroomApi.Repository
                 LocalEmail.DateReceived = DateTime.Now;
                 LocalEmail.HtmlBody = email.HtmlBody;
                 LocalEmail.Status = EmailStatus.Received;
-                LocalEmail.DesignerId = null;
+                //LocalEmail.DesignerId = null;
+                ///////////////////////////////////////////////
+                LocalEmail.DesignerId = Guid.Empty;
+                ///////////////////////////////////////////////
 
                 //other not null fields
                 LocalEmail.TextBody = "";
@@ -44,20 +47,17 @@ namespace Design2WorkroomApi.Repository
 
                 bool FirstEmailFlag = true;
                 LocalEmail.ToEmailAddress = "";
-                if(email.ToFull.Count() > 0)
+                foreach (var item in email.ToFull)
                 {
-                    foreach (var item in email.ToFull)
+                    if (FirstEmailFlag == true)
                     {
-                        if (FirstEmailFlag == true)
-                        {
-                            FirstEmailFlag = false;
+                        FirstEmailFlag = false;
 
-                            LocalEmail.ToEmailAddress += item.Email;
-                        }
-                        else
-                        {
-                            LocalEmail.ToEmailAddress += ", " + item.Email;
-                        }
+                        LocalEmail.ToEmailAddress += item.Email;
+                    }
+                    else
+                    {
+                        LocalEmail.ToEmailAddress += ", " + item.Email;
                     }
                 }
 
@@ -83,7 +83,7 @@ namespace Design2WorkroomApi.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message + "$$$Inner : " + ex.InnerException.Message);
-                return (false, ex.Message + " Inner Exception:" + ex.InnerException.Message);
+                return (false, ex.Message + " <Inner Exception>:" + ex.InnerException.Message);
             }
         }
 

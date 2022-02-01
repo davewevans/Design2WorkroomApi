@@ -2,6 +2,8 @@
 {
     public class WorkOrderCreateDto
     {
+        public Guid Id { get; set; }
+
         public int WorkOrderNumber { get; set; }
 
         public DateTime DateOrdered { get; set; }
