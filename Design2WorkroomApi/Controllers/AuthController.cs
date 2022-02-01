@@ -217,7 +217,7 @@ namespace Design2WorkroomApi.Controllers
             catch (Exception exc)
             {
                 _logger.LogError(exc, "Error while processing request body: " + exc.ToString());
-                return GetBlockPageApiResponse("GetAppRoles-InternalError", "An error occurred while determining your app roles, please try again later.");
+                return GetBlockPageApiResponse("GetAppRoles-InternalError", exc.ToString());
             }
         }       
 
