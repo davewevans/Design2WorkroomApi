@@ -15,5 +15,6 @@
         public Guid DesignerId { get; set; }
 
         public List<WorkOrderItemDto> WorkOrderItems { get; set; } = null!;
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -49,8 +49,54 @@ namespace Design2WorkroomApi.Controllers
             var result = await _workOrders.GetWorkOrderByIdAsync(id);
 
             if (!result.IsSuccess) return NotFound(result.ErrorMessage);
-            var dto = mapper.Map<WorkOrderDto>(result.Client);
+            var dto = mapper.Map<WorkOrderDto>(result.WorkOrder);
             return Ok(dto);
+        }
+
+        [HttpGet("GetAllWorkOrders")]
+        public async Task<IActionResult> GetAllWorkOrders()
+        {
+            var result = await _workOrders.GetAllWorkOrdersAsync();
+
+            if (!result.IsSuccess) return NotFound(result.ErrorMessage);
+            var dto = mapper.Map<List<WorkOrderDto>>(result.WorkOrders);
+            return Ok(dto);
+        }
+
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateWorkOrder(Guid id, WorkOrderDto WorkOrder)
+        {
+            var getResult = await _workOrders.GetWorkOrderByIdAsync(id);
+
+            if (!getResult.IsSuccess || getResult.WorkOrder is null) return NotFound(getResult.ErrorMessage);
+            mapper.Map(WorkOrder, getResult.WorkOrder);
+            getResult.WorkOrder.UpdatedAt = DateTime.UtcNow;
+
+            var updateResult = await _workOrders.UpdateWorkOrderAsync(getResult.WorkOrder);
+            if (!updateResult.IsSuccess)
+            {
+                ModelState.AddModelError("", $"Something went wrong when updating the record { getResult.WorkOrder.WorkOrderNumber }");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteWorkOrderAsync(Guid id)
+        {
+            var existsResult = await _workOrders.GetWorkOrderByIdAsync(id);
+
+            if (!existsResult.IsSuccess)
+            {
+                return NotFound();
+            }
+
+            var deleteResult = await _workOrders.DeleteWorkOrderAsync(id);
+            if (deleteResult.IsSuccess) return NoContent();
+            var getResult = await _workOrders.GetWorkOrderByIdAsync(id);
+            ModelState.AddModelError("", $"Something went wrong when deleting the record { getResult.WorkOrder?.WorkOrderNumber }");
+            return StatusCode(500, ModelState);
         }
     }
 }
