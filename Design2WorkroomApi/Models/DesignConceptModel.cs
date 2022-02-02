@@ -12,5 +12,7 @@ namespace Design2WorkroomApi.Models
         public Guid ClientId { get; set; }
 
         public bool IsArchived { get; set; }
+
+        public List<DesignConceptsApprovalModel> DesignConceptsApproval { get; set; } = null!;
     }
 }

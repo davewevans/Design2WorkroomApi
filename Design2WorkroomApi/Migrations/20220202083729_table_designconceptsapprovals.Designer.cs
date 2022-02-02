@@ -4,6 +4,7 @@ using Design2WorkroomApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Design2WorkroomApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220202083729_table_designconceptsapprovals")]
+    partial class table_designconceptsapprovals
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,9 +202,6 @@ namespace Design2WorkroomApi.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("DesignConceptId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
 
@@ -210,8 +209,6 @@ namespace Design2WorkroomApi.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DesignConceptId");
 
                     b.ToTable("DesignConceptsApprovals");
                 });
@@ -907,17 +904,6 @@ namespace Design2WorkroomApi.Migrations
                     b.Navigation("Designer");
                 });
 
-            modelBuilder.Entity("Design2WorkroomApi.Models.DesignConceptsApprovalModel", b =>
-                {
-                    b.HasOne("Design2WorkroomApi.Models.DesignConceptModel", "DesignConcept")
-                        .WithMany("DesignConceptsApproval")
-                        .HasForeignKey("DesignConceptId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DesignConcept");
-                });
-
             modelBuilder.Entity("Design2WorkroomApi.Models.DesignSpecificationModel", b =>
                 {
                     b.HasOne("Design2WorkroomApi.Models.DesignerModel", "Designer")
@@ -1041,11 +1027,6 @@ namespace Design2WorkroomApi.Migrations
 
                     b.Navigation("Profile")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Design2WorkroomApi.Models.DesignConceptModel", b =>
-                {
-                    b.Navigation("DesignConceptsApproval");
                 });
 
             modelBuilder.Entity("Design2WorkroomApi.Models.InvoiceModel", b =>

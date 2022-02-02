@@ -87,6 +87,23 @@ namespace Design2WorkroomApi.Controllers
             return CreatedAtRoute(nameof(GetDesignConcept), new { id = dto.Id }, dto);
         }
 
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateDesignConcept(Guid id, DesignConceptUpdateDto designConceptUpdateDto)
+        {
+            var getResult = await _designConceptRepo.GetDesignConceptByIdAsync(id);
+
+            if (!getResult.IsSuccess || getResult.DesignConcept is null) return NotFound(getResult.ErrorMessage);
+            _mapper.Map(designConceptUpdateDto, getResult.DesignConcept);
+            //getResult.DesignConcept.IsApproved = designConceptUpdateDto.IsApproved;
+            getResult.DesignConcept.UpdatedAt = DateTime.UtcNow;
+
+            var updateResult = await _designConceptRepo.UpdateDesignConceptsAsync(getResult.DesignConcept);
+            if (!updateResult.IsSuccess) return NoContent();
+            ModelState.AddModelError("", $"Something went wrong when updating the record");
+            return StatusCode(500, ModelState);
+
+        }
+
         // DELETE: api/Client/5
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteClient(Guid id)
@@ -102,6 +119,22 @@ namespace Design2WorkroomApi.Controllers
             if (deleteResult.IsSuccess) return NoContent();
             ModelState.AddModelError("", $"Something went wrong when deleting the record.");
             return StatusCode(500, ModelState);
+        }
+
+        [HttpPost("CreateDesignConceptsApproval")]
+        public async Task<IActionResult> CreateDesignConceptsApproval([FromBody] DesignConceptsApprovalsCreateDto designConceptsApprovalsCreateDto)
+        {
+            var designConceptsApproval = _mapper.Map<DesignConceptsApprovalModel>(designConceptsApprovalsCreateDto);
+
+            designConceptsApproval.CreatedAt = DateTime.UtcNow;
+
+            var createResult = await _designConceptRepo.CreateDesignConceptsApprovalAsync(designConceptsApproval);
+            if (!createResult.IsSuccess)
+            {
+                ModelState.AddModelError("", $"Something went wrong when saving the create designconcepts approval data.");
+                return StatusCode(500, ModelState);
+            }
+            return Ok();
         }
     }
 }

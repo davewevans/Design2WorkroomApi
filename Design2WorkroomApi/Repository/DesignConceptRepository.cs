@@ -8,7 +8,7 @@ using TinifyAPI;
 
 namespace Design2WorkroomApi.Repository
 {
-    public class DesignConceptRepository: IDesignConceptRepository
+    public class DesignConceptRepository : IDesignConceptRepository
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -35,6 +35,7 @@ namespace Design2WorkroomApi.Repository
             try
             {
                 var designConcepts = await _dbContext.DesignConcepts
+                    .Include(x => x.DesignConceptsApproval)
                     .AsNoTracking()
                     .ToListAsync();
 
@@ -85,6 +86,20 @@ namespace Design2WorkroomApi.Repository
             }
         }
 
+        public async Task<(bool IsSuccess, string? ErrorMessage)> UpdateDesignConceptsAsync(DesignConceptModel designConcept)
+        {
+            try
+            {
+                _dbContext.DesignConcepts.Update(designConcept);
+                await _dbContext.SaveChangesAsync();
+                return (true, null);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+        }
+
         public async Task<(bool IsSuccess, bool Exists, string? ErrorMessage)> DesignConceptExistsAsync(Guid id)
         {
             try
@@ -113,5 +128,20 @@ namespace Design2WorkroomApi.Repository
                 return (false, ex.Message);
             }
         }
+
+        public async Task<(bool IsSuccess, string? ErrorMessage)> CreateDesignConceptsApprovalAsync(DesignConceptsApprovalModel designConceptsApproval)
+        {
+            try
+            {
+                await _dbContext.DesignConceptsApprovals.AddAsync(designConceptsApproval);
+                await _dbContext.SaveChangesAsync();
+                return (true, null);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+        }
+
     }
 }

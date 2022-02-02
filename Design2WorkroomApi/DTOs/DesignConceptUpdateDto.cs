@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Design2WorkroomApi.DTOs
+﻿namespace Design2WorkroomApi.DTOs
 {
-    public class DesignConceptUpdate
+    public class DesignConceptUpdateDto
     {
         public string ImageUrl { get; set; }
 
@@ -11,5 +9,7 @@ namespace Design2WorkroomApi.DTOs
         public Guid ClientId { get; set; }
 
         public bool IsArchived { get; set; }
+
+        public bool IsApproved { get; set; }
     }
 }

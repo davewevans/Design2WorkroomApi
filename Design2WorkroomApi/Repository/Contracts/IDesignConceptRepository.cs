@@ -16,5 +16,9 @@ namespace Design2WorkroomApi.Repository.Contracts
         Task<(bool IsSuccess, bool Exists, string? ErrorMessage)> DesignConceptExistsAsync(Guid id);
 
         Task<(bool IsSuccess, string? ErrorMessage)> DeleteDesignConceptAsync(Guid id);
+
+        Task<(bool IsSuccess, string? ErrorMessage)> UpdateDesignConceptsAsync(DesignConceptModel designConcept);
+
+        Task<(bool IsSuccess, string? ErrorMessage)> CreateDesignConceptsApprovalAsync(DesignConceptsApprovalModel designConceptsApproval);
     }
 }

@@ -13,5 +13,9 @@
         public bool IsArchived { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public bool IsApproved { get; set; }
+
+        public List<DesignConceptsApprovalsDto> DesignConceptsApproval { get; set; }
     }
 }
