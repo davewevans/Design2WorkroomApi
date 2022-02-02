@@ -2,9 +2,9 @@
 
 namespace Design2WorkroomApi.DTOs
 {
-    public class WorkOrderDto
+    public class WorkOrderDto : Entity
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
 
         public int WorkOrderNumber { get; set; }
 

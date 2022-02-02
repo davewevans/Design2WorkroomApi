@@ -2,6 +2,8 @@
 {
     public class WorkOrderUpdateDto
     {
+        public Guid Id { get; set; }
+
         public int WorkOrderNumber { get; set; }
 
         public DateTime DateOrdered { get; set; }
@@ -13,5 +15,6 @@
         public Guid DesignerId { get; set; }
 
         public List<WorkOrderItemDto> WorkOrderItems { get; set; } = null!;
+        public DateTime CreatedAt { get; set; }
     }
 }

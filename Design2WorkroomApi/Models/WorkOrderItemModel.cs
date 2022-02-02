@@ -29,7 +29,7 @@ namespace Design2WorkroomApi.Models
         public string Fabric { get; set; }
 
         [ForeignKey(nameof(WorkOrderModel))]
-        public Guid WorkOrderId { get; set; }
+        public Guid? WorkOrderId { get; set; }
 
         public WorkOrderModel WorkOrder { get; set; } = null!;
     }
