@@ -26,5 +26,6 @@ namespace Design2WorkroomApi.Models
         public List<ContractModel> Contracts { get; set; } = null!;
 
         public List<NotificationModel> Notifications { get; set; } = null!;
+        public List<ClientDesignModel> ClientDesigns { get; set; } = null!;
     }
 }

@@ -4,6 +4,7 @@ using Design2WorkroomApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Design2WorkroomApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220203123516_ClientDesign_Remove")]
+    partial class ClientDesign_Remove
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,40 +110,6 @@ namespace Design2WorkroomApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Attachments");
-                });
-
-            modelBuilder.Entity("Design2WorkroomApi.Models.ClientDesignModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("DesignerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsArchived")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("DesignerId");
-
-                    b.ToTable("ClientDesign");
                 });
 
             modelBuilder.Entity("Design2WorkroomApi.Models.ColorModel", b =>
@@ -930,21 +898,6 @@ namespace Design2WorkroomApi.Migrations
                     b.Navigation("ParentAppUser");
                 });
 
-            modelBuilder.Entity("Design2WorkroomApi.Models.ClientDesignModel", b =>
-                {
-                    b.HasOne("Design2WorkroomApi.Models.ClientModel", "client")
-                        .WithMany("ClientDesigns")
-                        .HasForeignKey("ClientId");
-
-                    b.HasOne("Design2WorkroomApi.Models.DesignerModel", "designer")
-                        .WithMany("ClientDesigns")
-                        .HasForeignKey("DesignerId");
-
-                    b.Navigation("client");
-
-                    b.Navigation("designer");
-                });
-
             modelBuilder.Entity("Design2WorkroomApi.Models.ContractModel", b =>
                 {
                     b.HasOne("Design2WorkroomApi.Models.DesignerModel", "Designer")
@@ -1107,15 +1060,11 @@ namespace Design2WorkroomApi.Migrations
 
             modelBuilder.Entity("Design2WorkroomApi.Models.ClientModel", b =>
                 {
-                    b.Navigation("ClientDesigns");
-
                     b.Navigation("Workorders");
                 });
 
             modelBuilder.Entity("Design2WorkroomApi.Models.DesignerModel", b =>
                 {
-                    b.Navigation("ClientDesigns");
-
                     b.Navigation("Contracts");
 
                     b.Navigation("DesignSpecifications");

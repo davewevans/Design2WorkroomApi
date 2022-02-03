@@ -14,6 +14,8 @@ namespace Design2WorkroomApi.Helpers
         {
             // Automapper profiles 
 
+            CreateMap<ClientDesignModel, ClientDesignDto>().ReverseMap();
+
             CreateMap<DesignerModel, DesignerDto>().ReverseMap();
             CreateMap<DesignerModel, DesignerCreateDto>().ReverseMap();
             CreateMap<DesignerModel, DesignerUpdateDto>().ReverseMap();

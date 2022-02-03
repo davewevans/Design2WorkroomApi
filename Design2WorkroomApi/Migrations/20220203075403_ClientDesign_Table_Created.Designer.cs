@@ -4,6 +4,7 @@ using Design2WorkroomApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Design2WorkroomApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220203075403_ClientDesign_Table_Created")]
+    partial class ClientDesign_Table_Created
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,10 +121,16 @@ namespace Design2WorkroomApi.Migrations
                     b.Property<Guid?>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ClientModelId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("DesignerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("DesignerModelId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImageUrl")
@@ -137,9 +145,9 @@ namespace Design2WorkroomApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
+                    b.HasIndex("ClientModelId");
 
-                    b.HasIndex("DesignerId");
+                    b.HasIndex("DesignerModelId");
 
                     b.ToTable("ClientDesign");
                 });
@@ -932,17 +940,13 @@ namespace Design2WorkroomApi.Migrations
 
             modelBuilder.Entity("Design2WorkroomApi.Models.ClientDesignModel", b =>
                 {
-                    b.HasOne("Design2WorkroomApi.Models.ClientModel", "client")
+                    b.HasOne("Design2WorkroomApi.Models.ClientModel", null)
                         .WithMany("ClientDesigns")
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientModelId");
 
-                    b.HasOne("Design2WorkroomApi.Models.DesignerModel", "designer")
+                    b.HasOne("Design2WorkroomApi.Models.DesignerModel", null)
                         .WithMany("ClientDesigns")
-                        .HasForeignKey("DesignerId");
-
-                    b.Navigation("client");
-
-                    b.Navigation("designer");
+                        .HasForeignKey("DesignerModelId");
                 });
 
             modelBuilder.Entity("Design2WorkroomApi.Models.ContractModel", b =>

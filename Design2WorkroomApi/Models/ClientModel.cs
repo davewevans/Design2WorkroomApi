@@ -17,6 +17,8 @@ namespace Design2WorkroomApi.Models
 
         public List<WorkOrderModel> Workorders { get; set; }
 
+        public List<ClientDesignModel> ClientDesigns { get; set; } = null;
+
         public bool InvitationAccepted { get; set; }
     }
 }

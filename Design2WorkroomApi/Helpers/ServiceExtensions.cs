@@ -48,6 +48,7 @@ namespace Design2WorkroomApi.Helpers
             services.AddScoped<IInvitationRepository, InvitationRepository>();
             services.AddScoped<IB2CGraphClient, B2CGraphClient>();
             services.AddScoped<IWorkOrdersRepository, WorkOrdersRepository>();
+            services.AddScoped<IClientDesignRepository, ClientDesignRepository>();
         }
     }
 }
