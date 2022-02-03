@@ -40,7 +40,7 @@ namespace Design2WorkroomApi.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return CreatedAtRoute(nameof(GetWorkOrder), new { id = data.Id }, data);
+            return Ok(createResult.Id);
         }
 
         [HttpGet("{id:guid}", Name = "GetWorkOrder")]

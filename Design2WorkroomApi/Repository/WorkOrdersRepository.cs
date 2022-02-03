@@ -14,17 +14,17 @@ namespace Design2WorkroomApi.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<(bool IsSuccess, string? ErrorMessage)> CreateWorkOrderAsync(WorkOrderModel WorkOrder)
+        public async Task<(bool IsSuccess, Guid? Id, string? ErrorMessage)> CreateWorkOrderAsync(WorkOrderModel WorkOrder)
         {
             try
             {
                 await _dbContext.WorkOrders.AddAsync(WorkOrder);
                 await _dbContext.SaveChangesAsync();
-                return (true, null);
+                return (true, WorkOrder.Id, null);
             }
             catch (Exception ex)
             {
-                return (false, ex.Message);
+                return (false, Guid.Empty, null);
             }
         }
 
