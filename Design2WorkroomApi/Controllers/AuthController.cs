@@ -161,11 +161,19 @@ namespace Design2WorkroomApi.Controllers
                 // Get the client id of the app that the user is signing in to.
                 var clientId = body.GetProperty("client_id").GetString();
                 var email = body.GetProperty("email").GetString();
-                var firstName = body.GetProperty("givenName").GetString();
-                var lastName = body.GetProperty("surname").GetString();
+                var firstName = "";
+                if (body.TryGetProperty("givenName", out JsonElement jsonElement5))
+                {
+                    firstName = body.GetProperty("givenName").GetString();
+                }
+                var lastName = "";
+                if (body.TryGetProperty("surname", out JsonElement jsonElement4))
+                {
+                    lastName = body.GetProperty("surname").GetString();
+                }
                 //var postalCode = body.GetProperty("postalCode").GetString();
                 var city = "";
-                if (body.TryGetProperty("city",out JsonElement jsonElement))
+                if (body.TryGetProperty("city",out JsonElement jsonElement3))
                 {
                     city = body.GetProperty("city").GetString();
                 }
