@@ -22,7 +22,7 @@ namespace Design2WorkroomApi.Models
         }
 
         public string UserName { get; set; } 
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         // Azure B2C Object Id
         // Identifies user in Azure B2C
