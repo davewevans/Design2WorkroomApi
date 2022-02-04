@@ -31,6 +31,19 @@ namespace Design2WorkroomApi.Services
                 var user_Id = user.Id;
                 return (true, userRole, user_Id.ToString(), null);
             }
+            else
+            {
+                var data = await _dbContext.AppUsers.Where(a => a.UserName == email).FirstOrDefaultAsync();
+                if(data is not null)
+                {
+                    data.B2CObjectId = objectId;
+
+                    _dbContext.Update(data);
+
+                    await _dbContext.SaveChangesAsync();
+                }
+                
+            }
             return (false, null,"", "No designer found");
         }
 
