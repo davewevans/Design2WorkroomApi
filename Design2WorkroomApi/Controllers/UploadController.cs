@@ -30,7 +30,7 @@ namespace Design2WorkroomApi.Controllers
                     var fileExtension = Path.GetExtension(fileName);
                     var blobFileName = $"{ Guid.NewGuid() }{ fileExtension.ToLower() }";
 
-                    // TODO save file name to db
+                    //  TODO save file name to database
 
                     string fileURL = await uploadService.UploadAsync(file.OpenReadStream(), blobFileName, file.ContentType, _imageBlobContainerName);
                     return Ok(new { fileURL });
