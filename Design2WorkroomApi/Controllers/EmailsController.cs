@@ -94,7 +94,8 @@ namespace Design2WorkroomApi.Controllers
             {
                 ModelState.AddModelError("", $"Something went wrong when saving the record.");
                 _logger.LogError(createResult.ErrorMessage);
-                return StatusCode(500, ModelState);
+                return BadRequest(createResult.ErrorMessage);
+                //return StatusCode(500, ModelState);
             }
             return Ok();
         }
