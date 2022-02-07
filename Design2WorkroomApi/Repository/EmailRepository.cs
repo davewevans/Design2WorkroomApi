@@ -36,7 +36,7 @@ namespace Design2WorkroomApi.Repository
                 LocalEmail.Status = EmailStatus.Received;
                 //LocalEmail.DesignerId = null;
                 ///////////////////////////////////////////////
-                LocalEmail.DesignerId = Guid.Empty;
+                LocalEmail.DesignerId = null;
                 ///////////////////////////////////////////////
 
                 //other not null fields
