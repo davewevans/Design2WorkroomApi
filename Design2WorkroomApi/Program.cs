@@ -23,6 +23,9 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Host.UseSerilog((ctx, lc) => lc
 //    .WriteTo.Console());
 
+// The following line enables Application Insights telemetry collection.
+builder.Services.AddApplicationInsightsTelemetry();
+
 const string APP_NAME = "D2W";
 Design2WorkroomApi.Helpers.LoggerConfigurationExtensions.SetupLoggerConfiguration(APP_NAME);
 
