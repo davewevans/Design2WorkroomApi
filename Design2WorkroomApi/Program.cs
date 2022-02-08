@@ -8,6 +8,7 @@ using System.Reflection;
 using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.OData;
 using Serilog;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +22,23 @@ var builder = WebApplication.CreateBuilder(args);
 // ref: https://www.youtube.com/watch?v=ad0IhMFsxyw
 //builder.Host.UseSerilog((ctx, lc) => lc
 //    .WriteTo.Console());
-builder.Host.UseSerilog((ctx, lc) => lc
-    .WriteTo.File("Logs/log.txt"));
 
+const string APP_NAME = "D2W";
+Design2WorkroomApi.Helpers.LoggerConfigurationExtensions.SetupLoggerConfiguration(APP_NAME);
+
+//builder.Host.UseSerilog((ctx, loggerConfiguration) =>
+//    loggerConfiguration.WriteTo.File("Logs/log.txt")
+//        logger
+//        )
+//.lc.ConfigureBaseLogging(APP_NAME, AppVersionInfo.GetBuildInfo());
+//.lc.AddApplicationInsightsLogging(services, hostBuilderContext.Configuration)
+
+builder.Host.UseSerilog((hostBuilderContext, services, loggerConfiguration) =>
+{
+    loggerConfiguration.WriteTo.File("Logs/log.txt");
+    loggerConfiguration.ConfigureBaseLogging(APP_NAME);
+    loggerConfiguration.AddApplicationInsightsLogging(services, hostBuilderContext.Configuration);
+});
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
       .AddMicrosoftIdentityWebApi(options =>
@@ -128,4 +143,19 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+
+try
+{
+    Log.Information("Starting web host");
+    app.Run();
+    return 0;
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Host terminated unexpectedly");
+    return 1;
+}
+finally
+{
+    Log.CloseAndFlush();
+}
