@@ -11,6 +11,10 @@ namespace Design2WorkroomApi.Repository.Contracts
 {
     public interface IEmailRepository
     {
+        Task<(bool IsSuccess, AttachmentsModel? Attachment, string? ErrorMessage)> GetAttachmentByIdAsync(Guid id);
+
+        Task<(bool IsSuccess, List<AttachmentsModel>? AttachmentsList, string? ErrorMessage)> GetAttachmentsListByEmailIdAsync(Guid id);
+        
         Task<(bool IsSuccess, EmailModel? Email, string? ErrorMessage)> GetEmailByIdAsync(Guid id);
 
         Task<(bool IsSuccess, List<EmailModel>? Emails, string? ErrorMessage)> GetAllEmailsAsync();

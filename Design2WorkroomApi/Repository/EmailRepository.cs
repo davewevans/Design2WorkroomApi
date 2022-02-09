@@ -200,5 +200,27 @@ namespace Design2WorkroomApi.Repository
                 return (false, ex.Message);
             }
         }
+
+        public async Task<(bool IsSuccess, List<AttachmentsModel>? AttachmentsList, string? ErrorMessage)> GetAttachmentsListByEmailIdAsync(Guid id)
+        {
+            var attachments = _dbContext.Attachments.Where(x => x.EmailId == id).ToList();
+
+            if (attachments is not null)
+            {
+                return (true, attachments, null);
+            }
+            return (false, null, "No attachment found");
+        }
+
+        public async Task<(bool IsSuccess, AttachmentsModel? Attachment, string? ErrorMessage)> GetAttachmentByIdAsync(Guid id)
+        {
+            var attachment = _dbContext.Attachments.Where(x => x.Id == id).FirstOrDefault();
+
+            if (attachment is not null)
+            {
+                return (true, attachment, null);
+            }
+            return (false, null, "No attachment found");
+        }
     }
 }

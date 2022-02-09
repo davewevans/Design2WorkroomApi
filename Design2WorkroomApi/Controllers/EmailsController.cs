@@ -176,6 +176,28 @@ namespace Design2WorkroomApi.Controllers
             return StatusCode(500, ModelState);
         }
 
+        [HttpGet("GetAllAttachments")]
+        public async Task<IActionResult> GetAllAttachments(Guid id)
+        {
+            var result = await _emailRepo.GetAttachmentsListByEmailIdAsync(id);
 
+            if (!result.IsSuccess) return NotFound(result.ErrorMessage);
+            var dtoList = _mapper.Map<List<AttachmentsDto>>(result.AttachmentsList);
+            return Ok(dtoList);
+        }
+
+        [HttpGet("DownloadAttachments")]
+        public async Task<IActionResult> DownloadAttachments(Guid id)
+        {
+            var result = await _emailRepo.GetAttachmentByIdAsync(id);
+
+            if (!result.IsSuccess) return NotFound(result.ErrorMessage);
+            var dto = _mapper.Map<AttachmentsDto>(result.Attachment);
+
+            var bytes = Convert.FromBase64String(dto.Content);
+            var contents = new StreamContent(new MemoryStream(bytes));
+
+            return File(contents.ReadAsStream(), dto.ContentType, dto.Name);
+        }
     }
 }
