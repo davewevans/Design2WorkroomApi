@@ -188,7 +188,7 @@ namespace Design2WorkroomApi.Controllers
                 {
                     country = body.GetProperty("country").GetString();
                 }
-                return GetBlockPageApiResponse("GetAppRoles-InternalError", "$$$$ Response : " + body);
+                return GetValidationErrorApiResponse("GetAppRoles-InternalError", "$$$$ Response : " + body);
                 var existsResult = await _designerRepo.DesignerExistsAsync(email);
                 //if(existsResult.Exists)
                 //{
@@ -229,7 +229,7 @@ namespace Design2WorkroomApi.Controllers
                 }
                 else
                 {
-                    return GetBlockPageApiResponse("GetAppRoles-InternalError", appRoles.ErrorMessage + "$$$$ Response : " + body);
+                    return GetValidationErrorApiResponse("GetAppRoles-InternalError", appRoles.ErrorMessage + "$$$$ Response : " + body);
                 }
                 // Custom user attributes in Azure AD B2C cannot be collections, so we emit them
                 // into a single claim value separated with spaces.
