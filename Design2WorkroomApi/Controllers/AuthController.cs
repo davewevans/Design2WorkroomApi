@@ -189,8 +189,6 @@ namespace Design2WorkroomApi.Controllers
                     country = body.GetProperty("country").GetString();
                 }
 
-                return GetValidationErrorApiResponse("GetAppRoles-InternalError", "$$$$ User Render Response : " + body);
-
                 var existsResult = await _designerRepo.DesignerExistsAsync(email);
                 //if(existsResult.Exists)
                 //{
@@ -220,7 +218,7 @@ namespace Design2WorkroomApi.Controllers
                     //return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString());
                 }
 
-                return GetValidationErrorApiResponse("GetAppRoles-InternalError", "$$$$ User Exist Response : " + body);
+                //return GetValidationErrorApiResponse("GetAppRoles-InternalError", "$$$$ User Exist Response : " + body);
 
                 // Retrieve the app roles assigned to the user for the requested application.
                 var appRoles = await _appRolesProvider.GetAppRolesAsync(email, objectId);
