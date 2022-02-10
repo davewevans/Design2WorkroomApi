@@ -31,6 +31,6 @@ namespace Design2WorkroomApi.DTOs
 
         public DateTime DateReceived { get; set; }
 
-        public Guid DesignerId { get; set; }
+        public Guid? DesignerId { get; set; }
     }
 }
