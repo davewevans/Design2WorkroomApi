@@ -251,12 +251,12 @@ namespace Design2WorkroomApi.Controllers
 
         private IActionResult GetValidationErrorApiResponse(string code, string userMessage)
         {
-            return GetB2cApiConnectorResponse("ValidationError", code, userMessage, 400, null);
+            return GetB2cApiConnectorResponse("ValidationError", code, userMessage, 200, "");
         }
 
         private IActionResult GetBlockPageApiResponse(string code, string userMessage)
         {
-            return GetB2cApiConnectorResponse("ShowBlockPage", code, userMessage, 400, null);
+            return GetB2cApiConnectorResponse("ShowBlockPage", code, userMessage, 400, "");
         }
 
         private IActionResult GetB2cApiConnectorResponse(string action, string code, string userMessage, int statusCode, string appRoles, string UserId = "", string userName = "")
