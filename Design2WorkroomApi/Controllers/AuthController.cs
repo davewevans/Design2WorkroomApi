@@ -188,6 +188,7 @@ namespace Design2WorkroomApi.Controllers
                 {
                     country = body.GetProperty("country").GetString();
                 }
+                return GetBlockPageApiResponse("GetAppRoles-InternalError", "$$$$ Response : " + body);
                 var existsResult = await _designerRepo.DesignerExistsAsync(email);
                 //if(existsResult.Exists)
                 //{
