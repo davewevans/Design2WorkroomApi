@@ -266,9 +266,9 @@ namespace Design2WorkroomApi.Controllers
                 { "version", "1.0.0" },
                 { "action", action },
                 { "userMessage", userMessage },
-                { AppRolesAttributeName, appRoles },
-                { AppUserIdAttributeName,UserId },
-                { AppUserName, userName }
+                //{ AppRolesAttributeName, appRoles },
+                //{ AppUserIdAttributeName,UserId },
+                //{ AppUserName, userName }
             };
             if (statusCode != 200)
             {
