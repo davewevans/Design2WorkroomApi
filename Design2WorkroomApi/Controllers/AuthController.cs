@@ -217,7 +217,8 @@ namespace Design2WorkroomApi.Controllers
                     return GetContinueApiResponse("GetAppRoles-Succeeded", "Your app roles were successfully determined.", appRoles_Value, createResult.UserId, firstName + " " + lastName);
                     //return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Something went wrong...." + body.ToString());
                 }
-                
+
+                //return GetValidationErrorApiResponse("GetAppRoles-InternalError", "$$$$ User Exist Response : " + body);
 
                 // Retrieve the app roles assigned to the user for the requested application.
                 var appRoles = await _appRolesProvider.GetAppRolesAsync(email, objectId);
@@ -239,7 +240,7 @@ namespace Design2WorkroomApi.Controllers
             catch (Exception exc)
             {
                 _logger.LogError(exc, "Error while processing request body: " + exc.ToString());
-                return GetBlockPageApiResponse("GetAppRoles-InternalError", exc.ToString());
+                return GetValidationErrorApiResponse("GetAppRoles-InternalError", exc.ToString());
             }
         }       
 
