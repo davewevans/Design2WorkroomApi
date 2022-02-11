@@ -291,7 +291,7 @@ namespace Design2WorkroomApi.Controllers
                 {
                     country = body.GetProperty("country").GetString();
                 }
-                return GetValidationErrorApiResponse("GetAppRoles-InternalError", "$$$$ Response : " + body);
+                return GetValidationErrorApiResponse("GetAppRoles-InternalError", "Response : " + body.ToString());
                 var existsResult = await _designerRepo.DesignerExistsAsync(email);
                 //if(existsResult.Exists)
                 //{
@@ -332,7 +332,7 @@ namespace Design2WorkroomApi.Controllers
                 }
                 else
                 {
-                    return GetValidationErrorApiResponse("GetAppRoles-InternalError", appRoles.ErrorMessage + "$$$$ Response : " + body);
+                    return GetValidationErrorApiResponse("GetAppRoles-InternalError", appRoles.ErrorMessage + "Response : " + body.ToString());
                 }
                 // Custom user attributes in Azure AD B2C cannot be collections, so we emit them
                 // into a single claim value separated with spaces.
@@ -354,7 +354,7 @@ namespace Design2WorkroomApi.Controllers
 
         private IActionResult GetValidationErrorApiResponse(string code, string userMessage)
         {
-            return GetB2cApiConnectorResponse("ValidationError", code, userMessage, 200, "");
+            return GetB2cApiConnectorResponse("ValidationError", code, userMessage, 400, "");
         }
 
         private IActionResult GetBlockPageApiResponse(string code, string userMessage)
