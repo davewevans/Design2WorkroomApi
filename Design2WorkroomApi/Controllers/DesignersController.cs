@@ -61,6 +61,16 @@ namespace Design2WorkroomApi.Controllers
             return Ok(dto);
         }
 
+        [HttpGet("GetDesignerByObjectId/{objectid:guid}", Name = "GetDesignerByObjectId")]
+        public async Task<IActionResult> GetDesignerByObjectId(Guid objectid)
+        {
+            var result = await _designerRepo.GetDesignerByObjectIdAsync(objectid);
+
+            if (!result.IsSuccess) return NotFound(result.ErrorMessage);
+            var dto = _mapper.Map<DesignerDto>(result.Designer);
+            return Ok(dto);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateDesigner([FromBody] DesignerCreateDto designerCreateDto)
         {

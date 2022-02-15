@@ -96,5 +96,43 @@ namespace Design2WorkroomApi.Controllers
                 return BadRequest(response.ErrorMessage);
             }
         }
+
+        [HttpGet("user/exists", Name = "UserExists")]
+        public async Task<IActionResult> UserExists(string email)
+        {
+            var response = await _appRolesProvider.UserExistsAsync(email);
+            if (response.IsSuccess)
+            {
+                if (response.userData != null)
+                {
+                    var userData = _mapper.Map<UserDto>(response.userData);
+                    return Ok(userData);
+                }
+                else
+                {
+                    return NotFound(response.ErrorMessage);
+                }
+            }
+            else
+            {
+                return BadRequest(response.ErrorMessage);
+            }
+        }
+
+        [HttpPost("updateUserObjectId")]
+        public async Task<IActionResult> updateUserObjectId([FromBody] UserDto b2cUser)
+        {
+            var User = _mapper.Map<Models.User>(b2cUser);
+            var response = await _appRolesProvider.updateUserObjectId(User);
+            if (response.IsSuccess)
+            {
+                var userData = _mapper.Map<UserDto>(response.userData);
+                return Ok(userData);
+            }
+            else
+            {
+                return BadRequest(response.ErrorMessage);
+            }
+        }
     }
 }

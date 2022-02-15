@@ -7,6 +7,8 @@ namespace Design2WorkroomApi.Repository.Contracts
     {
         Task<(bool IsSuccess, DesignerModel? Designer, string? ErrorMessage)> GetDesignerByIdAsync(Guid designer);
 
+        Task<(bool IsSuccess, DesignerModel? Designer, string? ErrorMessage)> GetDesignerByObjectIdAsync(Guid id);
+
         Task<(bool IsSuccess, DesignerModel? Designer, string? ErrorMessage)> GetDesignerByEmailAsync(string Email);
 
         Task<(bool IsSuccess, List<DesignerModel>? Designers, string? ErrorMessage)> GetAllDesignersAsync();

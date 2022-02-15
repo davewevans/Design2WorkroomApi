@@ -41,6 +41,28 @@ namespace Design2WorkroomApi.Repository
             return (false, null, "No designer found");
         }
 
+        public async Task<(bool IsSuccess, DesignerModel? Designer, string? ErrorMessage)> GetDesignerByObjectIdAsync(Guid id)
+        {
+            try
+            {
+                var designer = await _dbContext.AppUsers
+                .Include(x => x.Profile)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.B2CObjectId == id.ToString());
+
+                if (designer is not null)
+                {
+                    return (true, designer as DesignerModel, null);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return (false, null, "No designer found");
+        }
+
         public async Task<(bool IsSuccess, DesignerModel? Designer, string? ErrorMessage)> GetDesignerByEmailAsync(string Email)
         {
             var designer = await _dbContext.AppUsers

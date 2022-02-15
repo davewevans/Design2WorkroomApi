@@ -11,5 +11,7 @@ namespace Design2WorkroomApi.Services.Contracts
 {
         Task<(bool IsSuccess, string? AppUserRole, string? UserId, string? ErrorMessage)> GetAppRolesAsync(string email, string objectId);
         Task<(bool IsSuccess, User? userData, string? ErrorMessage)> GetAppRolesByobjectId(string objectId);
+        Task<(bool IsSuccess, User? userData, string? ErrorMessage)> UserExistsAsync(string email);
+        Task<(bool IsSuccess, User? userData, string? ErrorMessage)> updateUserObjectId(User user);
     }
 }
