@@ -17,5 +17,9 @@
         public bool IsApproved { get; set; }
 
         public List<DesignConceptsApprovalsDto> DesignConceptsApproval { get; set; }
+
+        public ClientDto ClientDetails { get; set; }
+
+        public DesignerDto DesignerDetails { get; set; }
     }
 }

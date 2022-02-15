@@ -16,12 +16,16 @@ namespace Design2WorkroomApi.Controllers
         private readonly ILogger<DesignConceptsController> _logger;
         private readonly IMapper _mapper;
         private readonly IDesignConceptRepository _designConceptRepo;
+        private readonly IClientRepository _cRepository;
+        private readonly IDesignerRepository _dRepository;
 
-        public DesignConceptsController(ILogger<DesignConceptsController> logger, IMapper mapper, IDesignConceptRepository designConceptRepo)
+        public DesignConceptsController(ILogger<DesignConceptsController> logger, IMapper mapper, IDesignConceptRepository designConceptRepo, IClientRepository cRepository, IDesignerRepository dRepository)
         {
             _logger = logger;
             _mapper = mapper;
             _designConceptRepo = designConceptRepo;
+            _cRepository = cRepository;
+            _dRepository = dRepository;
         }
 
         [HttpGet]
@@ -32,6 +36,16 @@ namespace Design2WorkroomApi.Controllers
 
             if (!result.IsSuccess) return NotFound(result.ErrorMessage);
             var dtoList = _mapper.Map<List<DesignConceptDto>>(result.DesignConcepts);
+
+            foreach(var item in dtoList)
+            {
+                var client = await _cRepository.GetClientByIdAsync(item.ClientId);
+                item.ClientDetails = _mapper.Map<ClientDto>(client.Client);
+
+                var designer = await _dRepository.GetDesignerByIdAsync(item.DesignerId);
+                item.DesignerDetails = _mapper.Map<DesignerDto>(designer.Designer);
+            }
+
             return Ok(dtoList);
         }
 
