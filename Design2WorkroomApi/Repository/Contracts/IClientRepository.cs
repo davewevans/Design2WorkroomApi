@@ -5,6 +5,8 @@ namespace Design2WorkroomApi.Repository.Contracts
 {
     public interface IClientRepository
     {
+        Task<(bool IsSuccess, ClientModel? Client, string? ErrorMessage)> CreateClientReturnClientAsync(ClientModel client);
+
         Task<(bool IsSuccess, ClientModel? Client, string? ErrorMessage)> GetClientByIdAsync(Guid id);
 
         Task<(bool IsSuccess, List<ClientModel>? Clients, string? ErrorMessage)> GetAllClientsAsync();

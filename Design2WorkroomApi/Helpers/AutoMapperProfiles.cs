@@ -55,6 +55,8 @@ namespace Design2WorkroomApi.Helpers
             CreateMap<AttachmentsModel, AttachmentsDto>().ReverseMap();
 
             CreateMap<DesignerModel, ClientModel>().ReverseMap();
+
+            CreateMap<AppUserAppUserDto, AppUserAppUser>().ReverseMap();
         }
     }
 }

@@ -30,16 +30,19 @@ namespace Design2WorkroomApi.Controllers
         private readonly IMapper _mapper;
         private readonly IClientRepository _clientRepo;
         private readonly AppUserHelper _appUserHelper;
+        private readonly IUserRepository _userRepository;
 
         public ClientsController(ILogger<ClientsController> logger, 
             IMapper mapper,
             IClientRepository clientRepo, 
-            AppUserHelper appUserHelper)
+            AppUserHelper appUserHelper,
+            IUserRepository userRepository)
         {
             _logger = logger;
             _mapper = mapper;
             _clientRepo = clientRepo;
             _appUserHelper = appUserHelper;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -101,39 +104,26 @@ namespace Design2WorkroomApi.Controllers
             /// client.InvitationAccepted
             /// 
 
-            var createResult = await _clientRepo.CreateClientAsync(client);
+            var createResult = await _clientRepo.CreateClientReturnClientAsync(client);
             if (!createResult.IsSuccess)
             {
                 ModelState.AddModelError("", $"Something went wrong when saving the record {client.UserName}");
                 return StatusCode(500, ModelState);
             }
 
-            //old code
-            //var dto = _mapper.Map<DesignerDto>(client);
+            AppUserAppUser appUserAppUser = new AppUserAppUser();
+            appUserAppUser.Active = true;
+            appUserAppUser.AppUserParentId = clientCreateDto.AppUserAppUser.AppUserParentId;
+            appUserAppUser.AppUserChildId = createResult.Client.Id;
+            var result = await _userRepository.CreateAppUserAppUserAsync(appUserAppUser);
+            if(!result.IsSuccess)
+            {
+                ModelState.AddModelError("", $"Something went wrong when saving the record CreateAppUserAppUserAsync");
+                return StatusCode(500, ModelState);
+            }
 
-            //new code
-            DesignerDto dto = new DesignerDto();
-            dto.UserName = client.UserName;
-            dto.Id = client.Id;
-            dto.B2CObjectId = client.B2CObjectId;
-            dto.AppUserRole = client.AppUserRole;
-            dto.Profile = new ProfileDto();
-            dto.Profile.Email = client.Profile.Email;
-            dto.Profile.FirstName = client.Profile.FirstName;
-            dto.Profile.LastName = client.Profile.LastName;
-            dto.Profile.PhonePrimary = client.Profile.PhonePrimary;
-            dto.Profile.PhoneSecondary = client.Profile.PhoneSecondary;
-            dto.Profile.StreetAddress1 = client.Profile?.StreetAddress1;
-            dto.Profile.StreetAddress2 = client.Profile?.StreetAddress2;
-            dto.Profile.City = client.Profile?.City;
-            dto.Profile.State = client.Profile?.State;
-            dto.Profile.PostalCode = client.Profile?.PostalCode;
-            dto.Profile.CountryCode = client.Profile?.CountryCode;
-            dto.Profile.WorkroomName = client.Profile?.WorkroomName;
-            dto.Profile.ContactNamePrimary = client.Profile?.ContactNamePrimary;
-            dto.Profile.ContactNameSecondary = client.Profile?.ContactNameSecondary;
-            dto.Profile.ProfilePicUrl = client.Profile?.ProfilePicUrl;
-            dto.Profile.AppUserId = client.Profile.AppUserId;
+            //old code
+            var dto = _mapper.Map<ClientDto>(client);
 
             return CreatedAtRoute(nameof(GetClient), new { id = dto.Id }, dto);
         }

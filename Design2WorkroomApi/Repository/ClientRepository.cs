@@ -100,6 +100,19 @@ namespace Design2WorkroomApi.Repository
             }
         }
 
+        public async Task<(bool IsSuccess, ClientModel? Client, string? ErrorMessage)> CreateClientReturnClientAsync(ClientModel client)
+        {
+            try
+            {
+                await _dbContext.AppUsers.AddAsync(client);
+                await _dbContext.SaveChangesAsync();
+                return (true, client, null);
+            }
+            catch (Exception ex)
+            {
+                return (false, new ClientModel("", ""), ex.Message);
+            }
+        }
 
         public async Task<(bool IsSuccess, string? ErrorMessage)> UpdateClientAsync(ClientModel client)
         {

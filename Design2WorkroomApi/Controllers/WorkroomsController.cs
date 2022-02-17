@@ -29,17 +29,20 @@ namespace Design2WorkroomApi.Controllers
         private readonly ILogger<WorkroomsController> _logger;
         private readonly IMapper _mapper;
         private readonly IWorkroomRepository _workroomRepo;
+        private readonly IUserRepository _userRepository;
         private readonly AppUserHelper _appUserHelper;
 
         public WorkroomsController(ILogger<WorkroomsController> logger, 
             IMapper mapper,
             IWorkroomRepository workroomRepo,
-            AppUserHelper appUserHelper)
+            AppUserHelper appUserHelper,
+            IUserRepository userRepository)
         {
             _logger = logger;
             _mapper = mapper;
             _workroomRepo = workroomRepo;
             _appUserHelper = appUserHelper;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -101,39 +104,26 @@ namespace Design2WorkroomApi.Controllers
             /// client.InvitationAccepted
             /// 
 
-            var createResult = await _workroomRepo.CreateWorkroomAsync(workroom);
+            var createResult = await _workroomRepo.CreateWorkroomReturnWorkroomAsync(workroom);
             if (!createResult.IsSuccess)
             {
                 ModelState.AddModelError("", $"Something went wrong when saving the record {workroom.UserName}");
                 return StatusCode(500, ModelState);
             }
 
-            //old code
-            //var dto = _mapper.Map<DesignerDto>(workroom);
+            AppUserAppUser appUserAppUser = new AppUserAppUser();
+            appUserAppUser.Active = true;
+            appUserAppUser.AppUserParentId = workroomCreateDto.AppUserAppUser.AppUserParentId;
+            appUserAppUser.AppUserChildId = createResult.Workroom.Id;
+            var result = await _userRepository.CreateAppUserAppUserAsync(appUserAppUser);
+            if (!result.IsSuccess)
+            {
+                ModelState.AddModelError("", $"Something went wrong when saving the record CreateAppUserAppUserAsync");
+                return StatusCode(500, ModelState);
+            }
 
-            //new code
-            DesignerDto dto = new DesignerDto();
-            dto.UserName = workroom.UserName;
-            dto.Id = workroom.Id;
-            dto.B2CObjectId = workroom.B2CObjectId;
-            dto.AppUserRole = workroom.AppUserRole;
-            dto.Profile = new ProfileDto();
-            dto.Profile.Email = workroom.Profile.Email;
-            dto.Profile.FirstName = workroom.Profile.FirstName;
-            dto.Profile.LastName = workroom.Profile.LastName;
-            dto.Profile.PhonePrimary = workroom.Profile.PhonePrimary;
-            dto.Profile.PhoneSecondary = workroom.Profile.PhoneSecondary;
-            dto.Profile.StreetAddress1 = workroom.Profile?.StreetAddress1;
-            dto.Profile.StreetAddress2 = workroom.Profile?.StreetAddress2;
-            dto.Profile.City = workroom.Profile?.City;
-            dto.Profile.State = workroom.Profile?.State;
-            dto.Profile.PostalCode = workroom.Profile?.PostalCode;
-            dto.Profile.CountryCode = workroom.Profile?.CountryCode;
-            dto.Profile.WorkroomName = workroom.Profile?.WorkroomName;
-            dto.Profile.ContactNamePrimary = workroom.Profile?.ContactNamePrimary;
-            dto.Profile.ContactNameSecondary = workroom.Profile?.ContactNameSecondary;
-            dto.Profile.ProfilePicUrl = workroom.Profile?.ProfilePicUrl;
-            dto.Profile.AppUserId = workroom.Profile.AppUserId;
+            //old code
+            var dto = _mapper.Map<WorkroomDto>(workroom);
 
             return CreatedAtRoute(nameof(GetWorkroom), new { id = dto.Id }, dto);
         }

@@ -100,6 +100,20 @@ namespace Design2WorkroomApi.Repository
             }
         }
 
+        public async Task<(bool IsSuccess, WorkroomModel? Workroom, string? ErrorMessage)> CreateWorkroomReturnWorkroomAsync(WorkroomModel workroom)
+        {
+            try
+            {
+                await _dbContext.AppUsers.AddAsync(workroom);
+                await _dbContext.SaveChangesAsync();
+                return (true, workroom, null);
+            }
+            catch (Exception ex)
+            {
+                return (false, new WorkroomModel("", ""), ex.Message);
+            }
+        }
+
         public async Task<(bool IsSuccess, string? ErrorMessage)> UpdateWorkroomAsync(WorkroomModel workroom)
         {
             try

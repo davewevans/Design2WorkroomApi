@@ -4,7 +4,9 @@ using System.Linq.Expressions;
 namespace Design2WorkroomApi.Repository.Contracts
 {
     public interface IWorkroomRepository
-    {
+    { 
+        Task<(bool IsSuccess, WorkroomModel? Workroom, string? ErrorMessage)> CreateWorkroomReturnWorkroomAsync(WorkroomModel workroom);
+
         Task<(bool IsSuccess, WorkroomModel? Workroom, string? ErrorMessage)> GetWorkroomByIdAsync(Guid id);
 
         Task<(bool IsSuccess, List<WorkroomModel>? Workrooms, string? ErrorMessage)> GetAllWorkroomsAsync();
